@@ -1,0 +1,83 @@
+[
+  {
+    "cc": "2",
+    "productName": "Laptop HP",
+    "quantity": 1,
+    "paymentMethod": "Efectivo",
+    "precio": 3500000,
+    "fecha": "2025-01-22T17:43:28.211Z"
+  },
+  {
+    "cc": "1",
+    "productName": "Laptop HP",
+    "quantity": 3,
+    "paymentMethod": "Efectivo",
+    "precio": 3500000,
+    "fecha": "2025-01-22T17:47:09.050Z"
+  },
+  {
+    "cc": "2",
+    "productName": "Laptop",
+    "quantity": 1,
+    "paymentMethod": "Efectivo",
+    "precio": 3500000,
+    "fecha": "2025-01-22T17:56:28.685Z"
+  },
+  
+  {
+    "cc": "71360554",
+    "productName": "jhon",
+    "quantity": 1,
+    "paymentMethod": "Efectivo",
+    "precio": 3500000,
+    "fecha": "2025-02-22T17:56:28.685Z"
+  }
+  ,
+  
+  {
+    "cc": "71360554",
+    "productName": "jhon",
+    "quantity": 6,
+    "paymentMethod": "Efectivo",
+    "precio": 3500000,
+    "fecha": "2025-03-22T17:56:28.685Z"
+  }
+  ,
+  
+  {
+    "cc": "71360554",
+    "productName": "jhon",
+    "quantity": 6,
+    "paymentMethod": "Efectivo",
+    "precio": 3500000,
+    "fecha": "2025-03-22T17:56:28.685Z"
+  }
+  ,
+  
+  {
+    "cc": "71360554",
+    "productName": "jhon",
+    "quantity": 6,
+    "paymentMethod": "Efectivo",
+    "precio": 3500000,
+    "fecha": "2025-03-22T17:56:28.685Z"
+  } ,
+  
+  {
+    "cc": "71360554",
+    "productName": "jhon",
+    "quantity": 6,
+    "paymentMethod": "Efectivo",
+    "precio": 3500000,
+    "fecha": "2025-03-22T17:56:28.685Z"
+  } ,
+  
+  {
+    "cc": "71360554",
+    "productName": "jhon",
+    "quantity": 6,
+    "paymentMethod": "Efectivo",
+    "precio": 3500000,
+    "fecha": "2025-03-22T17:56:28.685Z"
+  }
+]

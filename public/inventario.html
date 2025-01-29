@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario - Control de Negocio de Repuestos</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/inventario.css">
+</head>
+<body>
+    <header>
+        <h1>Control de Negocio de Repuestos</h1>
+        <nav>
+            <ul>
+                <li><a href="./inicio.html" onclick="loadPage()">Inicio</a></li>
+                <li><a href="./inventario.html" onclick="loadPage('inventario')">Inventario</a></li>
+                <li><a href="./ventas.html" onclick="loadPage('ventas')">Ventas</a></li>
+                <li><a href="./proveedores.html" onclick="loadPage('proveedores')">Proveedores</a></li>
+                <li><a href="./transacciones.html" onclick="loadPage('transacciones')">Transacciones</a></li>
+                <li><a href="./facturas.html" onclick="loadPage('facturas')">Facturas</a></li>
+                <li><a href="./empleado.html" >empleados</a></li>
+                <li><a href="./cliente.html" onclick="loadPage('cliente')">cliente</a></li>
+    
+    
+            </ul>
+        </nav>
+    </header>
+
+    <main id="content">
+        <section id="inventory-section">
+
+            <div class="container">
+                <div class="search">
+                    <input type="text" id="search-bar" placeholder="Buscar producto..." oninput="searchProducts()" aria-label="Buscar producto">
+                </div>
+            
+                <div class="date-filters">
+                    <label for="start-date">Desde:</label>
+                    <input type="date" id="start-date" onchange="filterByDate()" aria-label="Filtrar desde">
+                    
+                    <label for="end-date">Hasta:</label>
+                    <input type="date" id="end-date" onchange="filterByDate()" aria-label="Filtrar hasta">
+                </div>
+            
+                <div class="actions">
+                    <button id="add-product-btn" onclick="openAddProductForm()" aria-label="Agregar un nuevo producto">Agregar Producto</button>
+                    <button onclick="exportInventory()" aria-label="Exportar inventario a CSV">Exportar a CSV</button>
+                </div>
+            </div>
+            
+            
+
+            <div id="modal-overlay" class="hidden" onclick="closeAddProductForm(); closeEditProductForm();"></div>
+
+            <!-- Formulario para agregar productos -->
+            <div id="add-product-form" class="hidden" aria-labelledby="add-product-form-title">
+                <h3 id="add-product-form-title">Agregar Producto</h3>
+                <form id="product-form" onsubmit="addProduct(event)">
+                    <label for="product-name">Nombre del Producto:</label>
+                    <input type="text" id="product-name" required aria-required="true">
+                    
+                    <label for="product-brand">Marca del Producto:</label>
+                    <input type="text" id="product-brand" required aria-required="true">
+
+                    <label for="product-image">Imagen del Producto:</label>
+                    <input type="file" id="product-image" accept="image/*" required aria-required="true">
+                    
+                    <label for="product-quantity">Cantidad:</label>
+                    <input type="number" id="product-quantity" required aria-required="true">
+                    
+                    <label for="product-price">Precio:</label>
+                    <input type="number" id="product-price" required aria-required="true">
+                    
+                    <label for="product-date">Fecha de Adquisición:</label>
+                    <input type="date" id="product-date" required aria-required="true">
+                    
+                    <button type="submit">Agregar</button>
+                    <button type="button" onclick="closeAddProductForm()">Cancelar</button>
+                </form>
+            </div>
+<!-- Campo oculto para almacenar el nombre de la imagen actual -->
+<input type="hidden" id="current-product-image" value="nombre_original_de_imagen.jpg">
+
+           <!-- Fondo del modal -->
+<div id="modal-overlay" class="modal-overlay"></div>
+
+<!-- Formulario para editar productos -->
+<div id="edit-product-form" class="hidden" aria-labelledby="edit-product-form-title">
+    <h3 id="edit-product-form-title">Editar Producto</h3>
+    <form id="edit-form" onsubmit="editProduct(event)">
+        <input type="hidden" id="edit-product-id"> <!-- Campo oculto para el ID del producto -->
+        <label for="edit-product-name">Nombre del Producto:</label>
+        <input type="text" id="edit-product-name" required aria-required="true">
+
+        <label for="edit-product-brand">Marca del Producto:</label>
+        <input type="text" id="edit-product-brand" required aria-required="true">
+
+        <label for="edit-product-image">Imagen del Producto (opcional):</label>
+        <input type="file" id="edit-product-image" accept="image/*">
+
+        <label for="edit-product-quantity">Cantidad:</label>
+        <input type="number" id="edit-product-quantity" required aria-required="true">
+
+        <label for="edit-product-price">Precio:</label>
+        <input type="number" id="edit-product-price" required aria-required="true">
+
+        <label for="edit-product-date">Fecha de Adquisición:</label>
+        <input type="date" id="edit-product-date" required aria-required="true">
+
+        <button type="submit">Guardar Cambios</button>
+        <button type="button" onclick="closeEditProductForm()">Cancelar</button>
+    </form>
+</div>
+
+            <!-- Contenedor de las tarjetas de productos -->
+            <div id="product-cards" class="product-cards">
+                <!-- Las tarjetas de los productos se llenarán dinámicamente aquí -->
+            </div>
+
+            <div id="pagination-controls">
+                <button class="pagination-btn" id="prev-btn" aria-label="Página anterior">&laquo; Anterior</button>
+                <span id="page-number">1</span>
+                <button class="pagination-btn" id="next-btn" aria-label="Página siguiente">Siguiente &raquo;</button>
+            </div>
+            
+
+        </section>
+    </main>
+    <div id="message-container"></div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Control de Negocio de Repuestos</p>
+            <p><a href="mailto:soporte@repuestos.com" aria-label="Enviar un correo al soporte">Contacta con soporte</a></p>
+        </div>
+    </footer>
+
+    <script src="./js/inventory.js"></script>
+</body>
+</html>

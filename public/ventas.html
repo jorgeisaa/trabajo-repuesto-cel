@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventas - Control de Negocio de Repuestos</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/venta.css">
+    <link rel="stylesheet" href="./css/inventario.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>Control de Repuestos</h1>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="./inicio.html">Inicio</a></li>
+                <li><a href="./inventario.html">Inventario</a></li>
+                <li><a href="./ventas.html">Ventas</a></li>
+                <li><a href="./proveedores.html">Proveedores</a></li>
+                <li><a href="./transacciones.html">Transacciones</a></li>
+                <li><a href="./facturas.html">Facturas</a></li>
+                <li><a href="./empleado.html">Empleados</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="notification-bell" class="notification-bell">
+        <span id="notification-count" class="notification-count">0</span>
+        <img src="./logo/notificacion.png" alt="Campana de Notificaciones" class="bell-icon">
+    </div>
+
+    <div id="notification-container" class="notification-container hidden">
+        <h3>Notificaciones</h3>
+        <ul id="notification-list"></ul>
+    </div>
+
+    <main class="main-content">
+        <!-- Resumen de Ingresos -->
+        <div id="income-summary" class="grid-item">
+            <h3>Resumen de Ingresos</h3>
+            <p id="total-income">Total de Ingresos: $0.00</p>
+            <p id="total-efectivo">Total en Efectivo: $0.00</p>
+            <p id="total-tarjeta">Total en Tarjeta: $0.00</p>
+            <p id="total-transferencia">Total en Transferencia: $0.00</p>
+        </div>
+
+        <!-- Filtro de Ventas -->
+        <div id="sales-filter" class="grid-item">
+            <div class="sales-filter-item">
+                <h3>Selecciona un Día</h3>
+                <input type="date" id="date-picker" onchange="viewSalesByDate()">
+            </div>
+            <div class="sales-filter-item">
+                <h3>Selecciona un Mes</h3>
+                <input type="month" id="month-picker" onchange="viewSalesByMonth()">
+            </div>
+            <div class="sales-filter-item">
+                <h3>Selecciona un Año</h3>
+                <input type="number" id="year-picker" placeholder="Año (YYYY)" onchange="viewSalesByYear()">
+            </div>
+            <div id="sales-search" class="sales-filter-item">
+                <label for="search-sales">Buscar Ventas:</label>
+                <input type="text" id="search-sales" placeholder="Buscar por producto, cédula o fecha" oninput="filterSales()">
+            </div>
+            <table id="salesTable" class="sales-table"></table>
+        </div>
+
+        <!-- Ventas Realizadas -->
+        <section id="sales-section" class="grid-item">
+            <h2>Ventas Realizadas</h2>
+            <button id="add-sale-btn">Registrar Venta</button>
+
+            <div id="modal-overlay" class="hidden"></div>
+            <div id="add-sale-form" class="hidden">
+                <h3>Registrar Venta</h3>
+                <form id="sale-form">
+                    <label for="sale-cc">Cédula de Ciudadanía (CC):</label>
+                    <input type="number" id="sale-cc" required>
+
+                    <label for="producto">Producto:</label>
+                    <input type="text" id="producto" name="producto" placeholder="Buscar producto" autocomplete="off">
+
+                    <ul id="suggestions" style="position: absolute; background-color: white; border: 1px solid #ccc; max-height: 200px; overflow-y: auto;"></ul>
+
+                    <label for="sale-quantity">Cantidad Vendida:</label>
+                    <input type="number" id="sale-quantity" min="1" required>
+
+                    <label for="sale-payment-method">Forma de Pago:</label>
+                    <select id="sale-payment-method" required>
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Tarjeta">Tarjeta</option>
+                        <option value="Transferencia">Transferencia</option>
+                    </select>
+
+                    <button type="button" id="add-product-btn">Agregar Producto</button>
+                    <div id="selected-products"></div>
+
+                    <button type="submit">Registrar Venta</button>
+                    <button type="button" id="cancel-sale-btn">Cancelar</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Modal de Factura -->
+        <div id="invoice-modal" style="display: none;">
+            <div id="modal-invoice-content">
+                <div id="invoice-details"></div>
+            </div>
+            <button onclick="closeInvoiceModal()">Cerrar</button>
+            <button id="print-button">Imprimir</button>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Control de Negocio de Repuestos</p>
+            <p><a href="mailto:soporte@repuestos.com">Contacta con soporte</a></p>
+        </div>
+    </footer>
+
+    <script src="./js/modal.js"></script>
+    <script src="./js/venta2.js"></script>
+    <script src="./js/venta.js"></script>
+    <script src="./js/registrarventa.js"></script>
+</body>
+</html>

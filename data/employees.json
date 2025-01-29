@@ -1,0 +1,18 @@
+[
+  {
+    "name": "carlos arturo davila segura",
+    "job": "mecanico",
+    "salary": 20000000,
+    "paymentStatus": "paid",
+    "paymentDate": "2025-01-24T22:59:30.834Z",
+    "id": 2
+  },
+  {
+    "name": "jhon argiro",
+    "job": "barredor",
+    "salary": 1000000,
+    "paymentStatus": "unpaid",
+    "paymentDate": null,
+    "id": 3
+  }
+]
