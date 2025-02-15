@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PcParts - Iniciar Sesión</title>
+    <link rel="stylesheet" href="./css/login.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="./img/logo.png" alt="Logo PcParts">
+            <span>PcParts</span>
+        </div>
+        <nav>
+            <a href="#">INICIO</a>
+            <a href="./register.htm">REGISTRARSE</a>
+            <button class="btn-ingresar">Ingresar</button>
+        </nav>
+    </header>
+
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Bienvenido</h2>
+            <form id="loginForm">
+                <input type="text" id="username" placeholder="Usuario" required>
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <a href="#" class="forgot-password">¿Has olvidado la contraseña?</a>
+                <button type="submit">INGRESAR</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="./js/login.js"></script>
+</body>
+</html>

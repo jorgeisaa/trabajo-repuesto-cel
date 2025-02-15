@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - PcParts</title>
+    <link rel="stylesheet" href="./css/login.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="./img/logo.png" alt="Logo PcParts">
+            <span>PcParts</span>
+        </div>
+        <nav>
+            <a href="#">Inicio</a>
+            <a href="./register.htm" class="active">Registrarse</a>
+            <a href="./login.htm" class="btn-ingresar">Ingresar</a>
+        </nav>
+    </header>
+
+    <section class="register-container">
+        <div class="form-box">
+            <h2>PcParts</h2>
+            <p class="subtitulo">Crea una cuenta</p>
+            <p class="descripcion">Es rápido y fácil.</p>
+            <form id="registerForm">
+                <input type="text" id="newUsername" placeholder="Ingrese un nombre de usuario" required>
+                <input type="password" id="newPassword" placeholder="Crea tu contraseña" required>
+                <input type="password" id="confirmPassword" placeholder="Confirma tu contraseña" required>
+                <button type="submit">REGISTRARTE</button>
+            </form>
+            <p id="registerMessage"></p>
+        </div>
+    </section>
+
+    <script src="./js/login.js"></script>
+</body>
+</html>
