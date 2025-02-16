@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "name": "Procesador AMD Ryzen 5 5600X",
+        "price": 199.99,
+        "description": "Procesador de 6 núcleos y 12 hilos con una velocidad base de 3.7 GHz y boost de hasta 4.6 GHz.",
+"image": "https://i.pcmag.com/imagery/reviews/046qr9QhBLR8FEd4zwKn68Z-1.fit_lim.size_1200x630.v1609261793.jpg"
+
+    },
+    {
+        "id": 2,
+        "name": "Tarjeta Madre MSI B550M PRO",
+        "price": 129.99,
+        "description": "Placa base micro-ATX compatible con procesadores AMD Ryzen, PCIe 4.0 y memoria DDR4.",
+        "image": "https://example.com/images/msi_b550m_pro.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Memoria RAM Corsair Vengeance 16GB (2x8GB) 3200MHz",
+        "price": 79.99,
+        "description": "Kit de memoria DDR4 de alto rendimiento con disipadores de calor.",
+        "image": "https://example.com/images/corsair_16gb_3200mhz.jpg"
+    },
+    {
+        "id": 4,
+        "name": "Tarjeta Gráfica NVIDIA RTX 3060 12GB",
+        "price": 349.99,
+        "description": "GPU potente con tecnología Ray Tracing y DLSS para gaming en alta calidad.",
+        "image": "https://example.com/images/rtx_3060_12gb.jpg"
+    },
+    {
+        "id": 5,
+        "name": "SSD NVMe Kingston 1TB",
+        "price": 89.99,
+        "description": "Almacenamiento rápido con velocidades de lectura de hasta 2100 MB/s.",
+        "image": "https://example.com/images/kingston_nvme_1tb.jpg"
+    },
+    {
+        "id": 6,
+        "name": "Fuente de Poder EVGA 600W 80 Plus Bronze",
+        "price": 59.99,
+        "description": "Fuente de alimentación con certificación 80 Plus Bronze para mayor eficiencia.",
+        "image": "https://example.com/images/evga_600w.jpg"
+    },
+    {
+        "id": 7,
+        "name": "Gabinete Gamer NZXT H510",
+        "price": 99.99,
+        "description": "Chasis moderno con panel lateral de vidrio templado y excelente gestión de cables.",
+        "image": "https://example.com/images/nzxt_h510.jpg"
+    }
+]
