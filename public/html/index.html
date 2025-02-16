@@ -35,7 +35,10 @@
       <link rel="stylesheet" href="css/owl.carousel.min.css">
       <link rel="stylesoeet" href="css/owl.theme.default.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+  <link rel="stylesheet" href="./css/producto.css">
    </head>
+
+
    <body>
       <!-- banner bg main start -->
       <div class="banner_bg_main">
@@ -113,23 +116,40 @@
                            </a>
                         </div>
                      </div>
-                     <div class="login_menu">
-                        <ul>
-                           <li><a href="#">
-                              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                              <span class="padding_10">Cart</span></a>
-                           </li>
-                           <li><a href="#">
-                              <i class="fa fa-user" aria-hidden="true"></i>
-                              <span class="padding_10">Cart</span></a>
-                           </li>
-                        </ul>
-                     </div>
+                     <!-- Ícono del carrito en la barra de navegación -->
+<div class="login_menu">
+   <ul>
+       <li>
+           <a href="#" id="cartToggle">
+               <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+               <span class="padding_10">Cart (<span id="cartCounter">0</span>)</span>
+           </a>
+       </li>
+       <li>
+           <a href="#">
+               <i class="fa fa-user" aria-hidden="true"></i>
+               <span class="padding_10">Cuenta</span>
+           </a>
+       </li>
+   </ul>
+</div>
+
+<!-- Barra lateral del carrito -->
+<div id="cartSidebar" class="cart-sidebar">
+   <div class="cart-header">
+       <h2>🛒 Mi Carrito</h2>
+       <button id="closeCart">✖</button>
+   </div>
+   <div id="cartContainer" class="cart-content"></div>
+</div>
+
+                     
                   </div>
                </div>
             </div>
          </div>
          <!-- header section end -->
+          
          <!-- banner section start -->
          <div class="banner_section layout_padding">
             <div class="container">
@@ -172,6 +192,15 @@
          <!-- banner section end -->
       </div>
       <!-- banner bg main end -->
+
+
+
+
+      <div class="products-container" id="productsContainer">
+         <!-- Aquí se cargarán los productos -->
+     </div>
+
+
       <!-- fashion section start -->
       <div class="fashion_section">
          <div id="main_slider" class="carousel slide" data-ride="carousel">
@@ -280,7 +309,7 @@
                               <div class="box_main">
                                  <h4 class="shirt_text">Man -shirt</h4>
                                  <p class="price_text">Price  <span style="color: #262626;">$ 30</span></p>
-                                 <div class="tshirt_img"><img src="./images/cpu.jpg"></div>
+                                 <div class="tshirt_img"><img src="images/dress-shirt-img.png"></div>
                                  <div class="btn_main">
                                     <div class="buy_bt"><a href="#">Buy Now</a></div>
                                     <div class="seemore_bt"><a href="#">See More</a></div>
@@ -641,5 +670,6 @@
            document.getElementById("mySidenav").style.width = "0";
          }
       </script>
+      <script src="./js/productos.js"></script>
    </body>
 </html>

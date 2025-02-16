@@ -4,6 +4,8 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
+const productsFilePath = path.join(__dirname, 'data', 'products.json');
+
 
 const app = express();
 const PORT = 3000;
@@ -94,6 +96,85 @@ app.post('/login', async (req, res) => {
         return res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
 });
+
+
+// Función para cargar productos desde JSON
+const loadProducts = () => {
+    try {
+        if (!fs.existsSync(productsFilePath)) {
+            fs.writeFileSync(productsFilePath, JSON.stringify([]), 'utf-8');
+            return [];
+        }
+        const data = fs.readFileSync(productsFilePath, 'utf-8');
+        return JSON.parse(data);
+    } catch (error) {
+        console.error('❌ Error al leer el archivo de productos:', error);
+        return [];
+    }
+};
+
+// Función para guardar productos en JSON
+const saveProducts = (products) => {
+    try {
+        fs.writeFileSync(productsFilePath, JSON.stringify(products, null, 2), 'utf-8');
+        console.log('✅ Productos guardados correctamente.');
+    } catch (error) {
+        console.error('❌ Error al guardar productos:', error);
+    }
+};
+
+// Obtener todos los productos
+app.get('/products', (req, res) => {
+    res.json(loadProducts());
+});
+
+// Agregar un nuevo producto
+app.post('/products', (req, res) => {
+    const { name, price, description, image } = req.body;
+    if (!name || !price || !description || !image) {
+        return res.status(400).json({ success: false, message: 'Todos los campos son obligatorios' });
+    }
+
+    let products = loadProducts();
+    const newProduct = { id: Date.now(), name, price, description, image };
+    products.push(newProduct);
+    saveProducts(products);
+
+    res.json({ success: true, message: 'Producto agregado correctamente', product: newProduct });
+});
+
+// Editar un producto
+app.put('/products/:id', (req, res) => {
+    const { id } = req.params;
+    const { name, price, description, image } = req.body;
+
+    let products = loadProducts();
+    let productIndex = products.findIndex(p => p.id == id);
+
+    if (productIndex === -1) {
+        return res.status(404).json({ success: false, message: 'Producto no encontrado' });
+    }
+
+    products[productIndex] = { id: Number(id), name, price, description, image };
+    saveProducts(products);
+
+    res.json({ success: true, message: 'Producto actualizado correctamente' });
+});
+
+// Eliminar un producto
+app.delete('/products/:id', (req, res) => {
+    const { id } = req.params;
+    let products = loadProducts();
+
+    const filteredProducts = products.filter(p => p.id != id);
+    if (filteredProducts.length === products.length) {
+        return res.status(404).json({ success: false, message: 'Producto no encontrado' });
+    }
+
+    saveProducts(filteredProducts);
+    res.json({ success: true, message: 'Producto eliminado correctamente' });
+});
+
 
 // Ruta por defecto para servir `login.htm`
 app.get('/', (req, res) => {
