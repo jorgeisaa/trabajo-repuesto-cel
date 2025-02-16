@@ -8,7 +8,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 10px;
     background-color: #fff;
     border-bottom: 1px solid #ddd;
   }
@@ -35,41 +35,39 @@ body {
   .btn-ingresar {
     background-color: #ff66b2;
     color: white;
-    padding: 8px 16px;
+    padding: 10px 16px;
     border: none;
-    border-radius: 4px;
-    font-weight: bold;
+    border-radius: 35px;
+    font-size: 16px;
     cursor: pointer;
   }
   .search-bar {
+
     display: flex;
-    align-items: center;
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: 100%;
-    max-width: 400px;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente si hay más contenido */
+    width: 80%; /* Ajusta el ancho del contenedor */
+    margin: 0 auto; /* Centra el contenedor en la página */
   }
   .search-bar input {
-    border: none;
-    outline: none;
-    width: 100%;
-    padding-left: 8px;
+    
+    width: 150%; /* Ajusta el ancho del campo de entrada */
+  padding: 10px 30px; /* Aumenta el tamaño del área de texto */
+  border-radius: 20px; /* Bordes redondeados para mejorar el diseño */
+  font-size: 16px; /* Tamaño de texto */
   }
   .hero {
+    position: relative;
     text-align: center;
-    padding: 40px 20px;
-    background-color: #000;
-    color: white;
+    padding: 5px;
+    
   }
-  .hero h1 {
-    font-size: 48px;
-    margin: 0;
-  }
-  .hero h2 {
-    font-size: 24px;
-    font-weight: normal;
+  
+  .hero-image {
+    width: 100%; /* Ajusta al 100% del ancho de la sección */
+    max-width: 1700px; /* Limita el ancho máximo */
+    height: auto; /* Mantiene la proporción */
+    border-radius: 15px;
   }
   .categories {
     padding: 40px 20px;
@@ -96,6 +94,10 @@ body {
     border-radius: 10px;
     text-align: center;
     width: 200px;
+    display: flex;
+    flex-direction: column; /* Asegura que el contenido se apile verticalmente */
+    justify-content: space-between; /* Distribuye uniformemente los elementos */
+    height: 300px; /* Establece una altura fija para uniformar todas las tarjetas */
   }
   .category-card img {
     width: 100%;

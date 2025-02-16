@@ -1,0 +1,22 @@
+[
+    {
+      "nombre": "Intel i5 12400F",
+      "precio": 550,
+      "imagen": "./"
+    },
+    {
+      "nombre": "Tarjeta Gráfica RTX 3060",
+      "precio": 500,
+      "imagen": "https://example.com/rtx-3060.jpg"
+    },
+    {
+      "nombre": "Memoria RAM 16GB DDR4",
+      "precio": 80,
+      "imagen": "https://example.com/ram-16gb.jpg"
+    },
+    {
+      "nombre": "Disco SSD 1TB",
+      "precio": 120,
+      "imagen": "https://example.com/ssd-1tb.jpg"
+    }
+  ]
