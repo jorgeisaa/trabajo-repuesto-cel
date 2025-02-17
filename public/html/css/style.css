@@ -1,4 +1,4 @@
---------------------------------------------------------------------- File Name: style.css ---------------------------------------------------------------------*/
+/*--------------------------------------------------------------------- File Name: style.css ---------------------------------------------------------------------*/
 /*--------------------------------------------------------------------- import Files ---------------------------------------------------------------------*/
 
 @import url(animate.min.css);
@@ -214,7 +214,7 @@ button {
 .banner_bg_main {
     width: 100%;
     float: left;
-    background-image: url(../images/banner-bg.png);
+    background-image: url(../images/banner-bg.jpg);
     height: auto;
     background-size: 100%;
     background-repeat: no-repeat;
@@ -512,7 +512,7 @@ a:hover {
 }
 
 .buynow_bt a:hover {
-    background-color: #f26522;
+    background-color: #6645c2;
     color: #ffffff;
 }
 
@@ -530,10 +530,10 @@ a:hover {
 #my_slider .carousel-control-prev {
     width: 45px;
     height: 45px;
-    background: rgb(242, 222, 172, 0.80);
+    background-color: #6645c2;      
     opacity: 1;
-    font-size: 20px;
-    color: #000;
+    font-size: 20px;    
+    color: #ffffff;
     border-radius: 100px;
 }
 

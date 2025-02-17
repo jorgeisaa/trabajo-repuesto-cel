@@ -5,11 +5,12 @@ const path = require('path');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 const productsFilePath = path.join(__dirname, 'data', 'products.json');
+const usersFilePath = path.join(__dirname, 'data', 'users.json');
 
 
 const app = express();
 const PORT = 3000;
-const usersFilePath = path.join(__dirname, 'data', 'users.json');
+
 
 // Middleware
 app.use(cors());
