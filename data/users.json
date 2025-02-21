@@ -18,5 +18,9 @@
   {
     "username": "a",
     "password": "$2b$10$qJB6N1H2d6EGmlcNaswlBON23Wo09kXRdAbGMihzZn4BlG/BVIEUS"
+  },
+  {
+    "username": "jose",
+    "password": "$2b$10$JJ/o5kaz10.2QEaubndzkeOdpISmOJckQ4homVb3dLCV4NPSku9i."
   }
 ]

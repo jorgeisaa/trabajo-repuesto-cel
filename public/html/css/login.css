@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     
-    background-image: url("../images/fondo.png");
+    background-image: url("../images/fondo.jpg");
     background-size: cover; /* La imagen cubrirá toda la pantalla */
     background-position: center; /* Centra la imagen */
     background-repeat: no-repeat; /* Evita que la imagen se repita */
