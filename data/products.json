@@ -44,9 +44,9 @@
     },
     {
         "id": 7,
-        "name": "Gabinete Gamer NZXT H510",
+        "name": "Intel Core i5-13600K",
         "price": 99.99,
-        "description": "Chasis moderno con panel lateral de vidrio templado y excelente gestión de cables.",
-        "image": "https://example.com/images/nzxt_h510.jpg"
+        "description": "Los procesadores Intel Core de 13ª generación ofrecen un diseño revolucionario para un rendimiento más allá del mundo real.",
+        "image": "https://m.media-amazon.com/images/I/61DvPvlMACL._AC_SL1500_.jpg"
     }
 ]
