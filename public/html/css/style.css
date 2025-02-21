@@ -211,16 +211,7 @@ button {
 
 /* banner bg main start */
 
-.banner_bg_main {
-    width: 100%;
-    float: left;
-    background-image: url(../images/banner-bg.jpg);
-    height: auto;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%);
-}
+
 
 
 /* banner bg main end */
@@ -295,6 +286,7 @@ button {
 
 .containt_main {
     display: flex;
+    
 }
 
 
@@ -311,6 +303,8 @@ button {
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
+    
+
 }
 
 .sidenav a {
@@ -320,6 +314,7 @@ button {
     color: #ffffff;
     display: block;
     transition: 0.3s;
+    
 }
 
 .sidenav a:hover {
@@ -332,6 +327,7 @@ button {
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
+    
 }
 
 @media screen and (max-height: 450px) {
@@ -341,6 +337,16 @@ button {
     .sidenav a {
         font-size: 18px;
     }
+}
+
+.banner_bg_main {
+    width: 100%;
+    float: left;
+    background-image: url(../images/banner-bg.jpg);
+    height: auto;
+    background-size: 100%;
+    background-repeat: no-repeat;
+  
 }
 
 .toggle_icon {
