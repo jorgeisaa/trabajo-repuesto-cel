@@ -1,0 +1,244 @@
+/* 
+  ----------------------------------------------------
+  Estilos generales 
+  ----------------------------------------------------
+*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background-color: #000; /* Fondo base negro */
+    /* Si tienes una textura o imagen de fondo con líneas, agrégala aquí: */
+    /* background: url("../images/tu-textura.jpg") repeat center center; */
+    color: #fff;
+  }
+  
+  /* 
+    ----------------------------------------------------
+    Header / Navbar 
+    ----------------------------------------------------
+  */
+ 
+  
+  /* Efecto hover (al pasar el ratón) */
+  .btn-inicio:hover {
+    background-color: #500b8d;      /* Morado más oscuro */
+  }
+  
+  
+  .navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Mueve el link de INICIO a la derecha */
+  }
+  
+  .navbar-links a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-links a:hover {
+    color: #6a0dad; /* Morado al pasar el ratón */
+  }
+  
+  /* 
+    ----------------------------------------------------
+    Banner 
+    ----------------------------------------------------
+  */
+  .banner {
+    width: 100%;
+    height: 300px; /* Ajusta la altura según tu diseño */
+    position: relative;
+    /* Ajusta la ruta de tu imagen de banner */
+    background: url("../images/banner-bg.jpg") no-repeat center center;
+    background-size: cover;
+  }
+  
+  .banner-overlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6); /* Oscurece un poco la imagen */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .empresa-nombre {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  
+  .titulo-gestion {
+    font-size: 2rem;
+    text-transform: uppercase;
+  }
+  
+  /* 
+    ----------------------------------------------------
+    Contenedor principal del formulario
+    ----------------------------------------------------
+  */
+  .container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 0 20px;
+  }
+  
+  .form-title h2 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+  }
+  
+  /* 
+    ----------------------------------------------------
+    Formulario de productos
+    ----------------------------------------------------
+  */
+  .formulario-productos {
+    background-color: #1a1a1a; /* Un gris muy oscuro para contrastar con el fondo */
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  /* Grupos de formulario */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ccc;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #2a2a2a;
+    color: #fff;
+  }
+  
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: #999;
+  }
+  
+  /* 
+    ----------------------------------------------------
+    Botones de acción
+    ----------------------------------------------------
+  */
+  .form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .form-actions button {
+    border: none;
+    border-radius: 4px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Botón Agregar */
+  .btn-agregar {
+    background-color: #11cc0b;
+    color: #fff;
+  }
+  .btn-agregar:hover {
+    background-color: #0a9e2a;
+  }
+  
+  /* Botón Editar */
+  .btn-editar {
+    background-color: #ff9800;
+    color: #fff;
+  }
+  .btn-editar:hover {
+    background-color: #e68a00;
+  }
+  
+  /* Botón Eliminar */
+  .btn-eliminar {
+    background-color: #f44336;
+    color: #fff;
+  }
+  .btn-eliminar:hover {
+    background-color: #d32f2f;
+  }
+  .btn-salir {
+    background-color: #6a0dad;
+    color: #fff;
+  }
+  .btn-salir:hover {
+    background-color: #500b8d;
+  }
+  
+  /* 
+    ----------------------------------------------------
+    Footer
+    ----------------------------------------------------
+  */
+  footer {
+    width: 100%;
+    background-color: #000;
+    padding: 15px 0;
+    text-align: center;
+  }
+  
+  .footer-container p {
+    color: #ccc;
+    font-size: 0.9rem;
+  }
+  
+  /* 
+    ----------------------------------------------------
+    Responsividad
+    ----------------------------------------------------
+  */
+  @media (max-width: 768px) {
+    .banner {
+      height: 200px;
+    }
+    .empresa-nombre {
+      font-size: 2rem;
+    }
+    .titulo-gestion {
+      font-size: 1.5rem;
+    }
+    .navbar-container {
+      justify-content: center;
+    }
+  }
+  @media (max-width: 768px) {
+    .navbar-container {
+      justify-content: center;  /* Centra el botón en móviles */
+    }
+    /* Podrías también ajustar padding, etc. */
+  }
+  
