@@ -174,3 +174,41 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCartCounter();
     renderCart();
 });
+
+
+// Función para buscar productos
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.querySelector(".form-control");
+    const container = document.getElementById("productsContainer");
+
+    if (!searchInput || !container) return;
+
+    searchInput.addEventListener("input", () => {
+        const query = searchInput.value.toLowerCase();
+
+        fetch('/products')
+            .then(response => response.json())
+            .then(products => {
+                document.querySelectorAll(".product-card").forEach(card => card.style.display = "none");
+                
+                const filteredProducts = products.filter(product => 
+                    product.name.toLowerCase().includes(query)
+                );
+
+                if (filteredProducts.length === 0) {
+                    container.innerHTML = "<p style='text-align:center;'>No hay productos disponibles.</p>";
+                    return;
+                }
+
+                filteredProducts.forEach(product => {
+                    let productCard = [...container.children].find(card => 
+                        card.querySelector(".product-title").textContent === product.name
+                    );
+                    
+                    if (productCard) {
+                        productCard.style.display = "block";
+                    }
+                });
+            });
+    });
+});
