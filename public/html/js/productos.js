@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             products.forEach(product => {
                 const productCard = document.createElement("div");
-                productCard.classList.add("product-card");
+                productCard.classList.add("product-card", "box_main");
 
                 productCard.innerHTML = `
                     <img src="${product.image}" alt="${product.name}">
@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
                     
                     if (productCard) {
-                        productCard.style.display = "block";
+                        productCard.style.display = "flex";
                     }
                 });
             });
