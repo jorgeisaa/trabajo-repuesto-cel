@@ -48,6 +48,17 @@ $(function () {
 		});
 	});
 	
+
+	document.getElementById("openMenu").addEventListener("click", function(event) {
+		event.preventDefault();
+		document.getElementById("accountContainer").style.width = "250px";
+	});
+ 
+	document.getElementById("closeMenu").addEventListener("click", function() {
+		document.getElementById("accountContainer").style.width = "0";
+	});
+
+	
 	$(document).ready(function() {
 	  var owl = $('.banner-rotator-slider');
 	  owl.owlCarousel({

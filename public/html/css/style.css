@@ -292,13 +292,49 @@ button {
 
 /* opennav bar start */
 
+.sidenav-right {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0; /* Cambio de 'left' a 'right' */
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav-right a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #ffffff;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav-right a:hover {
+    color: #f26522;
+}
+
+.sidenav-right .closebtn {
+    position: absolute;
+    top: 0;
+    left: 25px; /* Cambio de 'right' a 'left' */
+    font-size: 36px;
+    margin-right: 50px;
+}
+
+
+
 .sidenav {
     height: 100%;
     width: 0;
     position: fixed;
     z-index: 1;
     top: 0;
-    left: 0;
+    left: 0 ;
     background-color: #111;
     overflow-x: hidden;
     transition: 0.5s;
@@ -329,6 +365,7 @@ button {
     margin-left: 50px;
     
 }
+
 
 @media screen and (max-height: 450px) {
     .sidenav {
