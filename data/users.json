@@ -22,5 +22,17 @@
   {
     "username": "jose",
     "password": "$2b$10$JJ/o5kaz10.2QEaubndzkeOdpISmOJckQ4homVb3dLCV4NPSku9i."
+  },
+  {
+    "username": "jose1",
+    "password": "$2b$10$26ovu5O4mxNPJLlTZ8oRRemfetKlkJPUeoqhgONV387y6gnImEtTq"
+  },
+  {
+    "username": "jose2",
+    "password": "$2b$10$Jmjd/gGKBZ5xsqTZE/cb0eR0rEgDalV8IgwrppdMi/m3bRtVjuIxm"
+  },
+  {
+    "username": "jose124",
+    "password": "$2b$10$p84KKp3tSYvHCKEfcyiB/.HgWk97pydWL0i3AdGSp1bek.rejLxHe"
   }
 ]

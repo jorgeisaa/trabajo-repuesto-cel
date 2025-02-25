@@ -1,35 +1,71 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PcParts - Iniciar Sesión</title>
-    <link rel="stylesheet" href="./css/login.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PcParts - Inicio - Registro</title>
+  <link rel="stylesheet" href="./css/login.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="./images/logo2.png" alt="Logo PcParts">
-            <span><strong>PcParts</strong></span>
+    
+  <div class="container">
+    <!-- Formulario de Login con id="loginForm" -->
+    <div class="form-box login">
+      <form id="loginForm" action="#">
+        <h1>Iniciar Sesion</h1>
+        <div class="input-box">
+          <input type="text" id="username" placeholder="Usuario" required>
+          <i class='bx bxs-user'></i>
         </div>
-        <nav>
-            <a href="#"><strong>INICIO</strong></a>
-            <a href="./register.htm"><strong>REGISTRARSE</strong></a>
-            <a href="login.htm" class="btn-ingresar"><strong>INGRESAR</strong></a>
-        </nav>
-    </header>
-
-    <div class="login-container">
-        <div class="login-box">
-            <h2><strong>Bienvenido</strong></h2>
-            <form id="loginForm">
-                <input type="text" id="username" placeholder="Usuario" required>
-                <input type="password" id="password" placeholder="Contraseña" required><br></br>
-                <a href="#" class="forgot-password">¿Has olvidado la contraseña?</a><br></br>
-                <button type="submit"><strong>Ingresar</strong></button>
-            </form>
+        <div class="input-box">
+          <input type="password" id="password" placeholder="Contraseña" required>
+          <i class='bx bxs-lock-alt'></i>
         </div>
+        <button type="submit" class="btn">Ingresar</button>
+      
+      </form>
     </div>
-    <script src="./js/login.js"></script>
+
+    <!-- Formulario de Registro -->
+<div class="form-box register">
+    <form id="registerForm" action="#">
+      <h1>Registrarse</h1>
+      <div class="input-box">
+        <input type="text" id="newUsername" placeholder="Usuario" required>
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input type="password" id="newPassword" placeholder="Contraseña" required>
+        <i class='bx bxs-lock-alt'></i>
+      </div>
+      <div class="input-box">
+        <input type="password" id="confirmPassword" placeholder="Confirmar Contraseña" required>
+        <i class='bx bxs-lock-alt'></i>
+      </div>
+      <button type="submit" class="btn">Registrarse</button>
+    </form>
+    <!-- Contenedor de mensajes para registro -->
+    <p id="registerMessage"></p>
+  </div>
+      
+
+    <!-- Paneles para alternar formularios -->
+    <div class="toggle-box">
+      <div class="toggle-panel toggle-left">
+        <h1>Hola, Bienvenido!</h1>
+        <p>¿No tienes una cuenta?</p>
+        <button class="btn register-btn">Registrarse</button>
+      </div>
+
+      <div class="toggle-panel toggle-right">
+        <h1>¡Bienvenido!</h1>
+        <p>¿Ya tienes una cuenta?</p>
+        <button class="btn login-btn">Inicia Sesion</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/login.js"></script>
 </body>
 </html>
