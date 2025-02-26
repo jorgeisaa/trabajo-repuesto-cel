@@ -1,27 +1,56 @@
-require('dotenv').config(); // Carga las variables de entorno
-const mysql = require('mysql2');
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const path = require('path');
 
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT,
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Conexión a MongoDB
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('Conectado a MongoDB'))
+  .catch(err => console.error('Error al conectar a MongoDB:', err));
+
+// Habilitar CORS
+app.use(cors());
+
+// Middlewares para parsear el body
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Servir archivos estáticos desde el directorio "public"
+app.use(express.static(path.join(__dirname, 'public' , 'html')));
+
+// Ruta principal: enviar el archivo de login
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'html', 'login.htm'));
 });
 
-connection.connect(err => {
-  if (err) {
-    console.error('❌ Error conectando a MySQL:', err);
-    return;
+// Rutas API (ejemplo: productos)
+const productRoutes = require('./routes/productRoutes');
+app.use('/api/products', productRoutes);
+
+// Middleware para rutas no encontradas (404)
+app.use((req, res, next) => {
+  res.status(404).json({ message: 'Ruta no encontrada' });
+});
+
+// Middleware para el manejo general de errores (500)
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ message: 'Error del servidor' });
+});
+
+// Iniciar el servidor y abrir el enlace en el navegador
+app.listen(port, async () => {
+  console.log(`Servidor escuchando en el puerto ${port}`);
+  try {
+    // Carga dinámica del módulo "open" (ESM-only)
+    const openModule = await import('open');
+    await openModule.default(`http://localhost:${port}`);
+    console.log('Se ha abierto el enlace en el navegador');
+  } catch (error) {
+    console.error('No se pudo abrir el enlace en el navegador', error);
   }
-  console.log('✅ Conectado a la base de datos MySQL');
 });
-
-// Ejemplo de una consulta
-connection.query('SELECT 1 + 1 AS solution', (err, results) => {
-  if (err) throw err;
-  console.log('La solución es:', results[0].solution);
-});
-
-// Exportar la conexión para usarla en otras partes del proyecto
-module.exports = connection;
