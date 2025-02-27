@@ -27,9 +27,16 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'html', 'login.htm'));
 });
 
-// Importar y usar rutas API
+
+// Rutas
+const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
-app.use('/api/products', productRoutes);
+const orderRoutes = require('./routes/orderRoutes');  // Nueva ruta para órdenes
+
+// Usar rutas
+app.use('/auth', authRoutes);
+app.use('/products', productRoutes);
+app.use('/orders', orderRoutes);  // Ruta para órdenes
 
 // Middleware para rutas no encontradas (404)
 app.use((req, res, next) => {

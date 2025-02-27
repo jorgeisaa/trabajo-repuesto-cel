@@ -46,121 +46,129 @@
   </table>
 
   <script>
+    // Función para obtener productos desde el backend
     async function fetchProducts() {
-  try {
-    const response = await fetch('/api/products');
-    
-    if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-    
-    const products = await response.json();
-    const tableBody = document.getElementById('productTableBody');
-    tableBody.innerHTML = '';
-
-    products.forEach(product => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${product._id}</td>
-        <td>${product.name}</td>
-        <td>${product.price}</td>
-        <td>${product.description}</td>
-        <td>
-          <button onclick="editProduct('${product._id}')">Editar</button>
-          <button onclick="deleteProduct('${product._id}')">Eliminar</button>
-        </td>
-      `;
-      tableBody.appendChild(row);
-    });
-  } catch (error) {
-    console.error('❌ Error al obtener productos:', error);
-    alert(`❌ Error al cargar productos: ${error.message}`);
-  }
-}
-
-document.getElementById('productForm').addEventListener('submit', async function (e) {
-  e.preventDefault();
-
-  const name = document.getElementById('name').value.trim();
-  const price = parseFloat(document.getElementById('price').value);
-  const description = document.getElementById('description').value.trim();
-
-  if (!name || isNaN(price) || price <= 0 || !description) {
-    alert('⚠️ Todos los campos son obligatorios y el precio debe ser un número mayor a 0.');
-    return;
-  }
-
-  try {
-    const response = await fetch('/api/products', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, price, description })
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Error desconocido al agregar producto.');
-    }
-
-    alert('✅ Producto agregado exitosamente');
-    document.getElementById('productForm').reset();
-    fetchProducts();
-  } catch (error) {
-    console.error('❌ Error:', error);
-    alert(`❌ Error al agregar producto: ${error.message}`);
-  }
-});
-
-async function editProduct(id) {
-  const newName = prompt('Nuevo nombre:').trim();
-  const newPrice = parseFloat(prompt('Nuevo precio:'));
-  const newDescription = prompt('Nueva descripción:').trim();
-
-  if (!newName || isNaN(newPrice) || newPrice <= 0 || !newDescription) {
-    alert('⚠️ Datos inválidos. Asegúrate de ingresar valores correctos.');
-    return;
-  }
-
-  try {
-    const response = await fetch(`/api/products/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: newName, price: newPrice, description: newDescription })
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Error desconocido al actualizar producto.');
-    }
-
-    alert('✅ Producto actualizado');
-    fetchProducts();
-  } catch (error) {
-    console.error('❌ Error:', error);
-    alert(`❌ Error al actualizar producto: ${error.message}`);
-  }
-}
-
-async function deleteProduct(id) {
-  if (confirm('⚠️ ¿Estás seguro de eliminar este producto?')) {
-    try {
-      const response = await fetch(`/api/products/${id}`, { method: 'DELETE' });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Error desconocido al eliminar producto.');
+      try {
+        // Cambié la ruta para que coincida con '/products' en lugar de '/api/products'
+        const response = await fetch('/products');
+        
+        if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+        
+        const products = await response.json();
+        const tableBody = document.getElementById('productTableBody');
+        tableBody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos productos
+  
+        products.forEach(product => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${product._id}</td>
+            <td>${product.name}</td>
+            <td>${product.price}</td>
+            <td>${product.description}</td>
+            <td>
+              <button onclick="editProduct('${product._id}')">Editar</button>
+              <button onclick="deleteProduct('${product._id}')">Eliminar</button>
+            </td>
+          `;
+          tableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('❌ Error al obtener productos:', error);
+        alert(`❌ Error al cargar productos: ${error.message}`);
       }
-
-      alert('✅ Producto eliminado');
-      fetchProducts();
-    } catch (error) {
-      console.error('❌ Error:', error);
-      alert(`❌ Error al eliminar producto: ${error.message}`);
     }
-  }
-}
-
-// Cargar productos al cargar la página
-fetchProducts();
-
+  
+    // Manejar el formulario de agregar producto
+    document.getElementById('productForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+  
+      const name = document.getElementById('name').value.trim();
+      const price = parseFloat(document.getElementById('price').value);
+      const description = document.getElementById('description').value.trim();
+  
+      if (!name || isNaN(price) || price <= 0 || !description) {
+        alert('⚠️ Todos los campos son obligatorios y el precio debe ser un número mayor a 0.');
+        return;
+      }
+  
+      try {
+        // Cambié la ruta para que coincida con '/products' en lugar de '/api/products'
+        const response = await fetch('/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, price, description })
+        });
+  
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Error desconocido al agregar producto.');
+        }
+  
+        alert('✅ Producto agregado exitosamente');
+        document.getElementById('productForm').reset();
+        fetchProducts();
+      } catch (error) {
+        console.error('❌ Error:', error);
+        alert(`❌ Error al agregar producto: ${error.message}`);
+      }
+    });
+  
+    // Editar un producto
+    async function editProduct(id) {
+      const newName = prompt('Nuevo nombre:').trim();
+      const newPrice = parseFloat(prompt('Nuevo precio:'));
+      const newDescription = prompt('Nueva descripción:').trim();
+  
+      if (!newName || isNaN(newPrice) || newPrice <= 0 || !newDescription) {
+        alert('⚠️ Datos inválidos. Asegúrate de ingresar valores correctos.');
+        return;
+      }
+  
+      try {
+        // Cambié la ruta para que coincida con '/products/:id' en lugar de '/api/products/:id'
+        const response = await fetch(`/products/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: newName, price: newPrice, description: newDescription })
+        });
+  
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Error desconocido al actualizar producto.');
+        }
+  
+        alert('✅ Producto actualizado');
+        fetchProducts();
+      } catch (error) {
+        console.error('❌ Error:', error);
+        alert(`❌ Error al actualizar producto: ${error.message}`);
+      }
+    }
+  
+    // Eliminar un producto
+    async function deleteProduct(id) {
+      if (confirm('⚠️ ¿Estás seguro de eliminar este producto?')) {
+        try {
+          // Cambié la ruta para que coincida con '/products/:id' en lugar de '/api/products/:id'
+          const response = await fetch(`/products/${id}`, { method: 'DELETE' });
+  
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Error desconocido al eliminar producto.');
+          }
+  
+          alert('✅ Producto eliminado');
+          fetchProducts();
+        } catch (error) {
+          console.error('❌ Error:', error);
+          alert(`❌ Error al eliminar producto: ${error.message}`);
+        }
+      }
+    }
+  
+    // Cargar productos cuando la página se cargue
+    fetchProducts();
   </script>
+  
 </body>
 </html>
