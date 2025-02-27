@@ -2,11 +2,15 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Agregar Producto</title>
+  <title>Gestión de Productos</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
     form div { margin-bottom: 10px; }
     label { display: inline-block; width: 100px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f4f4f4; }
+    button { margin-right: 5px; }
   </style>
 </head>
 <body>
@@ -27,34 +31,136 @@
     <button type="submit">Agregar Producto</button>
   </form>
 
+  <h2>Lista de Productos</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="productTableBody"></tbody>
+  </table>
+
   <script>
-    document.getElementById('productForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
+    async function fetchProducts() {
+  try {
+    const response = await fetch('/api/products');
+    
+    if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+    
+    const products = await response.json();
+    const tableBody = document.getElementById('productTableBody');
+    tableBody.innerHTML = '';
 
-      const name = document.getElementById('name').value;
-      const price = parseFloat(document.getElementById('price').value);
-      const description = document.getElementById('description').value;
-
-      try {
-        const response = await fetch('/api/products', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, price, description })
-        });
-
-        if (response.ok) {
-          const producto = await response.json();
-          alert('Producto agregado exitosamente: ' + JSON.stringify(producto));
-          document.getElementById('productForm').reset();
-        } else {
-          const errorData = await response.json();
-          alert('Error al agregar producto: ' + errorData.message);
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('Error al conectar con el servidor.');
-      }
+    products.forEach(product => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${product._id}</td>
+        <td>${product.name}</td>
+        <td>${product.price}</td>
+        <td>${product.description}</td>
+        <td>
+          <button onclick="editProduct('${product._id}')">Editar</button>
+          <button onclick="deleteProduct('${product._id}')">Eliminar</button>
+        </td>
+      `;
+      tableBody.appendChild(row);
     });
+  } catch (error) {
+    console.error('❌ Error al obtener productos:', error);
+    alert(`❌ Error al cargar productos: ${error.message}`);
+  }
+}
+
+document.getElementById('productForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value.trim();
+  const price = parseFloat(document.getElementById('price').value);
+  const description = document.getElementById('description').value.trim();
+
+  if (!name || isNaN(price) || price <= 0 || !description) {
+    alert('⚠️ Todos los campos son obligatorios y el precio debe ser un número mayor a 0.');
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/products', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, price, description })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Error desconocido al agregar producto.');
+    }
+
+    alert('✅ Producto agregado exitosamente');
+    document.getElementById('productForm').reset();
+    fetchProducts();
+  } catch (error) {
+    console.error('❌ Error:', error);
+    alert(`❌ Error al agregar producto: ${error.message}`);
+  }
+});
+
+async function editProduct(id) {
+  const newName = prompt('Nuevo nombre:').trim();
+  const newPrice = parseFloat(prompt('Nuevo precio:'));
+  const newDescription = prompt('Nueva descripción:').trim();
+
+  if (!newName || isNaN(newPrice) || newPrice <= 0 || !newDescription) {
+    alert('⚠️ Datos inválidos. Asegúrate de ingresar valores correctos.');
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/products/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: newName, price: newPrice, description: newDescription })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Error desconocido al actualizar producto.');
+    }
+
+    alert('✅ Producto actualizado');
+    fetchProducts();
+  } catch (error) {
+    console.error('❌ Error:', error);
+    alert(`❌ Error al actualizar producto: ${error.message}`);
+  }
+}
+
+async function deleteProduct(id) {
+  if (confirm('⚠️ ¿Estás seguro de eliminar este producto?')) {
+    try {
+      const response = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error desconocido al eliminar producto.');
+      }
+
+      alert('✅ Producto eliminado');
+      fetchProducts();
+    } catch (error) {
+      console.error('❌ Error:', error);
+      alert(`❌ Error al eliminar producto: ${error.message}`);
+    }
+  }
+}
+
+// Cargar productos al cargar la página
+fetchProducts();
+
   </script>
 </body>
 </html>

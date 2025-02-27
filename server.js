@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'html', 'login.htm'));
 });
 
-// Rutas API (ejemplo: productos)
+// Importar y usar rutas API
 const productRoutes = require('./routes/productRoutes');
 app.use('/api/products', productRoutes);
 
@@ -48,7 +48,7 @@ app.listen(port, async () => {
   try {
     // Carga dinámica del módulo "open" (ESM-only)
     const openModule = await import('open');
-    await openModule.default(`http://localhost:${port}`);
+    await openModule.default(`http://localhost:3000/login.htm`);
     console.log('Se ha abierto el enlace en el navegador');
   } catch (error) {
     console.error('No se pudo abrir el enlace en el navegador', error);

@@ -1,11 +1,11 @@
 const express = require('express');
-const router = express.Router();
 const productController = require('../controllers/productController');
+const router = express.Router();
 
-// Ruta para obtener todos los productos
 router.get('/', productController.getAllProducts);
-
-// Ruta para crear un nuevo producto
+router.get('/:id', productController.getProductById);
 router.post('/', productController.createProduct);
+router.put('/:id', productController.updateProduct);
+router.delete('/:id', productController.deleteProduct);
 
 module.exports = router;
