@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cartSidebar = document.getElementById("cartSidebar");
     const closeCartBtn = document.getElementById("closeCart");
     const cartTotal = document.getElementById("cartTotal");
+    const container = document.getElementById("productsContainer");
 
     // Botón de Finalizar Compra
     const checkoutBtn = document.createElement("button");
@@ -62,24 +63,21 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCartTotal();
     }
 
-    // Delegación de eventos para aumentar, disminuir y eliminar productos
     cartContainer.addEventListener("click", (e) => {
         const index = parseInt(e.target.dataset.index);
 
         if (e.target.classList.contains("increase-qty")) {
             cart[index].quantity++;
-        } 
-        else if (e.target.classList.contains("decrease-qty")) {
+        } else if (e.target.classList.contains("decrease-qty")) {
             if (cart[index].quantity > 1) {
                 cart[index].quantity--;
             } else {
                 cart.splice(index, 1);
             }
-        } 
-        else if (e.target.classList.contains("remove-from-cart")) {
+        } else if (e.target.classList.contains("remove-from-cart")) {
             cart.splice(index, 1);
         } else {
-            return; // No hacer nada si el clic no es en los botones relevantes
+            return;
         }
 
         saveCart();
@@ -87,13 +85,13 @@ document.addEventListener("DOMContentLoaded", () => {
         renderCart();
     });
 
-    // Cargar productos desde la API
     fetch('/products')
         .then(response => response.json())
         .then(products => {
-            const container = document.getElementById("productsContainer");
-
+            console.log(products);
+            
             if (!container) return;
+            container.innerHTML = "";
 
             if (products.length === 0) {
                 container.innerHTML = "<p style='text-align:center;'>No hay productos disponibles.</p>";
@@ -103,16 +101,14 @@ document.addEventListener("DOMContentLoaded", () => {
             products.forEach(product => {
                 const productCard = document.createElement("div");
                 productCard.classList.add("product-card", "box_main");
-
                 productCard.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}">
+                    <img src="${product.image || 'default.jpg'}" alt="${product.name}">
                     <div class="product-info">
                         <p class="product-title">${product.name}</p>
-                        <p class="product-price">$${product.price.toFixed(2)}</p>
-                        <a href="#" class="product-button" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}">Agregar al carrito</a>
+                        <p class="product-price">$${(product.price || 0).toFixed(2)}</p>
+                        <a href="#" class="product-button" data-id="${product._id}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image || 'default.jpg'}">Agregar al carrito</a>
                     </div>
                 `;
-
                 container.appendChild(productCard);
             });
 
@@ -152,63 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
         cartSidebar.classList.remove("active");
     });
 
-    checkoutBtn.addEventListener("click", () => {
-        if (cart.length === 0) {
-            alert("Tu carrito está vacío.");
-            return;
-        }
-
-        let message = "¡Hola! Quiero comprar:\n";
-        cart.forEach(item => {
-            message += `- ${item.quantity} x ${item.name} ($${item.price.toFixed(2)} c/u)\n`;
-        });
-
-        const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-        message += `\nTotal: $${total.toFixed(2)}`;
-
-        const phoneNumber = "3044426626";
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, "_blank");
-    });
-
     updateCartCounter();
     renderCart();
-});
-
-
-// Función para buscar productos
-document.addEventListener("DOMContentLoaded", () => {
-    const searchInput = document.querySelector(".form-control");
-    const container = document.getElementById("productsContainer");
-
-    if (!searchInput || !container) return;
-
-    searchInput.addEventListener("input", () => {
-        const query = searchInput.value.toLowerCase();
-
-        fetch('/products')
-            .then(response => response.json())
-            .then(products => {
-                document.querySelectorAll(".product-card").forEach(card => card.style.display = "none");
-                
-                const filteredProducts = products.filter(product => 
-                    product.name.toLowerCase().includes(query)
-                );
-
-                if (filteredProducts.length === 0) {
-                    container.innerHTML = "<p style='text-align:center;'>No hay productos disponibles.</p>";
-                    return;
-                }
-
-                filteredProducts.forEach(product => {
-                    let productCard = [...container.children].find(card => 
-                        card.querySelector(".product-title").textContent === product.name
-                    );
-                    
-                    if (productCard) {
-                        productCard.style.display = "flex";
-                    }
-                });
-            });
-    });
 });

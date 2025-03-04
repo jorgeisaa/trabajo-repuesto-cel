@@ -55,7 +55,7 @@ app.listen(port, async () => {
   try {
     // Carga dinámica del módulo "open" (ESM-only)
     const openModule = await import('open');
-    await openModule.default(`http://localhost:3000/login.htm`);
+    await openModule.default(`http://localhost:3000/index.html`);
     console.log('Se ha abierto el enlace en el navegador');
   } catch (error) {
     console.error('No se pudo abrir el enlace en el navegador', error);
