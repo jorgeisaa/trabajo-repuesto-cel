@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const mongoose = require('mongoose');
 
 // Obtener todos los productos
 exports.getAllProducts = async (req, res) => {
