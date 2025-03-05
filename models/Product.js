@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
+  image: { type: String, default: null },  // Si no se asigna una imagen, será null
   name: String,
   description: String,
   price: Number,

@@ -17,126 +17,116 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initLogin() {
-    const loginForm = document.getElementById("loginForm");
-    if (!loginForm) return;
-  
-    const submitButton = loginForm.querySelector("button[type='submit']");
-  
-    // En lugar de agregarlo al final del formulario, lo insertamos justo después del botón
-    const messageDiv = document.createElement("p");
-    messageDiv.style.cssText = "font-size: 14px; text-align: center; margin-top: 10px; opacity: 0; transition: opacity 0.5s ease-in-out;";
-    submitButton.insertAdjacentElement('afterend', messageDiv);
-  
-    loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-  
-      const username = document.getElementById("username").value.trim();
-      const password = document.getElementById("password").value.trim();
-  
-      if (!username || !password) {
-        return showMessage(messageDiv, "⚠️ Todos los campos son obligatorios.", "red");
-      }
-  
-      console.log(`🔑 Enviando usuario: ${username}, contraseña: ${password}`);
-  
-      // ⏳ Deshabilitar botón durante la petición
-      setLoadingState(submitButton, true);
-  
-      try {
-        const response = await fetch("http://localhost:3000/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password }),
-        });
-  
-        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-  
-        const data = await response.json();
-        console.log("🔍 Respuesta del servidor:", data);
-  
-        showMessage(messageDiv, data.message, data.success ? "green" : "red");
-  
-        if (data.success) {
-          setTimeout(() => {
-            window.location.href = data.redirect;
-          }, 1500);
-        }
-      } catch (error) {
-        console.error("❌ Error de conexión:", error);
-        showMessage(messageDiv, "❌ Error de conexión con el servidor.", "red");
-      } finally {
-        setLoadingState(submitButton, false);
-      }
-    });
-  }
-  
+  const loginForm = document.getElementById("loginForm");
+  if (!loginForm) return;
 
-// 🔹 Función para manejar el registro de usuarios
+  const submitButton = loginForm.querySelector("button[type='submit']");
+  const messageDiv = createMessageDiv(loginForm);
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if (!email || !password) {
+      return showMessage(messageDiv, "⚠️ Todos los campos son obligatorios.", "red");
+    }
+
+    console.log(`🔑 Enviando email: ${email}, contraseña: ${password}`);
+
+    setLoadingState(submitButton, true);
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+
+      const data = await response.json();
+      console.log("🔍 Respuesta del servidor:", data);
+
+      showMessage(messageDiv, data.message, data.success ? "green" : "red");
+
+      if (data.success) {
+        setTimeout(() => {
+          window.location.href = "./index.html";  // Redirige a index.html después de login exitoso
+        }, 1500);
+      }
+    } catch (error) {
+      console.error("❌ Error de conexión:", error);
+      showMessage(messageDiv, "❌ Error de conexión con el servidor.", "red");
+    } finally {
+      setLoadingState(submitButton, false);
+    }
+  });
+}
+
 function initRegister() {
-    const registerForm = document.getElementById("registerForm");
-    if (!registerForm) return;
-  
-    const submitButton = registerForm.querySelector("button[type='submit']");
-  
-    // Creamos el elemento de mensaje y lo insertamos justo después del botón
-    const messageDiv = document.createElement("p");
-    messageDiv.style.cssText = "font-size: 14px; text-align: center; margin-top: 10px; opacity: 0; transition: opacity 0.5s ease-in-out;";
-    submitButton.insertAdjacentElement('afterend', messageDiv);
-  
-    registerForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-  
-      const username = document.getElementById("newUsername").value.trim();
-      const password = document.getElementById("newPassword").value.trim();
-      const confirmPassword = document.getElementById("confirmPassword").value.trim();
-  
-      if (!username || !password || !confirmPassword) {
-        return showMessage(messageDiv, "⚠️ Todos los campos son obligatorios.", "red");
-      }
-  
-      if (password.length < 6) {
-        return showMessage(messageDiv, "🔒 La contraseña debe tener al menos 6 caracteres.", "red");
-      }
-  
-      if (password !== confirmPassword) {
-        return showMessage(messageDiv, "❌ Las contraseñas no coinciden.", "red");
-      }
-  
-      console.log(`🆕 Registrando usuario: ${username}`);
-  
-      // Deshabilitar botón mientras se procesa
-      setLoadingState(submitButton, true);
-  
-      try {
-        const response = await fetch("http://localhost:3000/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password }),
-        });
-  
-        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-  
-        const data = await response.json();
-        console.log("✅ Respuesta del servidor:", data);
-  
-        showMessage(messageDiv, data.message, data.success ? "green" : "red");
-  
-        if (data.success) {
-          setTimeout(() => {
-            window.location.href = "./login.htm"; // O la página que necesites
-          }, 1500);
-        }
-      } catch (error) {
-        console.error("❌ Error de conexión:", error);
-        showMessage(messageDiv, "❌ Error de conexión con el servidor.", "red");
-      } finally {
-        setLoadingState(submitButton, false);
-      }
-    });
-  }
-  
+  const registerForm = document.getElementById("registerForm");
+  if (!registerForm) return;
 
-// 🔹 Función para mostrar mensajes animados
+  const submitButton = registerForm.querySelector("button[type='submit']");
+  const messageDiv = createMessageDiv(registerForm);
+
+  registerForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("newEmail").value.trim();
+    const password = document.getElementById("newPassword").value.trim();
+    const confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+    if (!name || !email || !password || !confirmPassword) {
+      return showMessage(messageDiv, "⚠️ Todos los campos son obligatorios.", "red");
+    }
+
+    if (password.length < 6) {
+      return showMessage(messageDiv, "🔒 La contraseña debe tener al menos 6 caracteres.", "red");
+    }
+
+    if (password !== confirmPassword) {
+      return showMessage(messageDiv, "❌ Las contraseñas no coinciden.", "red");
+    }
+
+    console.log(`🆕 Registrando usuario: ${name}, email: ${email}`);
+
+    setLoadingState(submitButton, true);
+
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+
+      const data = await response.json();
+      console.log("✅ Respuesta del servidor:", data);
+
+      showMessage(messageDiv, data.message, data.success ? "green" : "red");
+      if (data.success) {
+        setTimeout(() => {
+          window.location.href = "./index.html";  // Redirige a index.html después del login exitoso
+        }, 1500);
+      } else {
+        showMessage(messageDiv, data.message, "red");
+      }
+      
+    } catch (error) {
+      console.error("❌ Error de conexión:", error);
+      showMessage(messageDiv, "❌ Error de conexión con el servidor.", "red");
+    } finally {
+      setLoadingState(submitButton, false);
+    }
+  });
+}
+
+// Función para mostrar mensajes animados
 function showMessage(element, text, color) {
   element.textContent = text;
   element.style.color = color;
@@ -147,13 +137,13 @@ function showMessage(element, text, color) {
   }, 3000);
 }
 
-// 🔹 Función para manejar el estado de carga del botón
+// Función para manejar el estado de carga del botón
 function setLoadingState(button, isLoading) {
   button.disabled = isLoading;
   button.textContent = isLoading ? "Cargando..." : button.dataset.originalText || button.textContent;
 }
 
-// 🔹 Función para crear un mensaje dinámico en formularios
+// Función para crear un mensaje dinámico en formularios
 function createMessageDiv(form) {
   const messageDiv = document.createElement("p");
   Object.assign(messageDiv, {

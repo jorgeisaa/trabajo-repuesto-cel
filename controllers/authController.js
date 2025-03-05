@@ -27,19 +27,21 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password"); // Asegura traer la contraseña
     if (!user) {
-      return res.status(400).json({ message: 'Usuario no encontrado' });
+      return res.status(400).json({ success: false, message: 'Usuario no encontrado' });
     }
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
-      return res.status(400).json({ message: 'Contraseña incorrecta' });
+      return res.status(400).json({ success: false, message: 'Contraseña incorrecta' });
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, { expiresIn: '1h' });
-    res.json({ token });
+
+    res.json({ success: true, message: "Inicio de sesión exitoso", token });
   } catch (err) {
-    res.status(500).json({ message: 'Error del servidor' });
+    res.status(500).json({ success: false, message: 'Error del servidor' });
   }
 };
+

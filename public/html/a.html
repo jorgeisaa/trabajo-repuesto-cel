@@ -15,7 +15,7 @@
 </head>
 <body>
   <h1>Agregar Nuevo Producto</h1>
-  <form id="productForm">
+  <form id="productForm" enctype="multipart/form-data">
     <div>
       <label for="name">Nombre:</label>
       <input type="text" id="name" name="name" required>
@@ -28,6 +28,10 @@
       <label for="description">Descripción:</label>
       <textarea id="description" name="description"></textarea>
     </div>
+    <div>
+      <label for="image">Imagen:</label>
+      <input type="file" id="image" name="image" accept="image/*">
+    </div>
     <button type="submit">Agregar Producto</button>
   </form>
 
@@ -39,6 +43,7 @@
         <th>Nombre</th>
         <th>Precio</th>
         <th>Descripción</th>
+        <th>Imagen</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -49,7 +54,6 @@
     // Función para obtener productos desde el backend
     async function fetchProducts() {
       try {
-        // Cambié la ruta para que coincida con '/products' en lugar de '/api/products'
         const response = await fetch('/products');
         
         if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
@@ -65,6 +69,7 @@
             <td>${product.name}</td>
             <td>${product.price}</td>
             <td>${product.description}</td>
+            <td><img src="/uploads/${product.image}" width="100"></td>
             <td>
               <button onclick="editProduct('${product._id}')">Editar</button>
               <button onclick="deleteProduct('${product._id}')">Eliminar</button>
@@ -85,6 +90,7 @@
       const name = document.getElementById('name').value.trim();
       const price = parseFloat(document.getElementById('price').value);
       const description = document.getElementById('description').value.trim();
+      const imageFile = document.getElementById('image').files[0];
   
       if (!name || isNaN(price) || price <= 0 || !description) {
         alert('⚠️ Todos los campos son obligatorios y el precio debe ser un número mayor a 0.');
@@ -92,11 +98,16 @@
       }
   
       try {
-        // Cambié la ruta para que coincida con '/products' en lugar de '/api/products'
+        // Creamos el objeto FormData para enviar la imagen junto con otros datos
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('price', price);
+        formData.append('description', description);
+        if (imageFile) formData.append('image', imageFile);
+
         const response = await fetch('/products', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, price, description })
+          body: formData
         });
   
         if (!response.ok) {
@@ -113,62 +124,30 @@
       }
     });
   
-    // Editar un producto
-    async function editProduct(id) {
-      const newName = prompt('Nuevo nombre:').trim();
-      const newPrice = parseFloat(prompt('Nuevo precio:'));
-      const newDescription = prompt('Nueva descripción:').trim();
-  
-      if (!newName || isNaN(newPrice) || newPrice <= 0 || !newDescription) {
-        alert('⚠️ Datos inválidos. Asegúrate de ingresar valores correctos.');
-        return;
-      }
-  
-      try {
-        // Cambié la ruta para que coincida con '/products/:id' en lugar de '/api/products/:id'
-        const response = await fetch(`/products/${id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: newName, price: newPrice, description: newDescription })
-        });
-  
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Error desconocido al actualizar producto.');
-        }
-  
-        alert('✅ Producto actualizado');
-        fetchProducts();
-      } catch (error) {
-        console.error('❌ Error:', error);
-        alert(`❌ Error al actualizar producto: ${error.message}`);
-      }
-    }
-  
     // Eliminar un producto
     async function deleteProduct(id) {
-      if (confirm('⚠️ ¿Estás seguro de eliminar este producto?')) {
-        try {
-          // Cambié la ruta para que coincida con '/products/:id' en lugar de '/api/products/:id'
-          const response = await fetch(`/products/${id}`, { method: 'DELETE' });
-  
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Error desconocido al eliminar producto.');
-          }
-  
-          alert('✅ Producto eliminado');
-          fetchProducts();
-        } catch (error) {
-          console.error('❌ Error:', error);
-          alert(`❌ Error al eliminar producto: ${error.message}`);
-        }
+  console.log('ID del producto a eliminar:', id);  // Verificar ID antes de la solicitud
+
+  if (confirm('⚠️ ¿Estás seguro de eliminar este producto?')) {
+    try {
+      const response = await fetch(`/products/${id}`, { method: 'DELETE' });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error desconocido al eliminar producto.');
       }
+
+      alert('✅ Producto eliminado');
+      fetchProducts();
+    } catch (error) {
+      console.error('❌ Error:', error);
+      alert(`❌ Error al eliminar producto: ${error.message}`);
     }
-  
+  }
+}
+
     // Cargar productos cuando la página se cargue
     fetchProducts();
   </script>
-  
 </body>
 </html>

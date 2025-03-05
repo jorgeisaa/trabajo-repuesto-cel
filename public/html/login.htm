@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PcParts - Inicio - Registro</title>
   <link rel="stylesheet" href="./css/login.css">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 <body>
     
   <div class="container">
     <!-- Formulario de Login con id="loginForm" -->
     <div class="form-box login">
-      <form id="loginForm" action="#">
-        <h1>Iniciar Sesion</h1>
+      <form id="loginForm">
+        <h1>Iniciar Sesión</h1>
         <div class="input-box">
-          <input type="text" id="username" placeholder="Usuario" required>
+          <input type="email" id="email" placeholder="Correo Electrónico" required>
           <i class='bx bxs-user'></i>
         </div>
         <div class="input-box">
@@ -23,32 +23,36 @@
           <i class='bx bxs-lock-alt'></i>
         </div>
         <button type="submit" class="btn">Ingresar</button>
-      
+        <!-- Mensaje dinámico para login -->
+        <p id="loginMessage"></p>
       </form>
     </div>
 
     <!-- Formulario de Registro -->
-<div class="form-box register">
-    <form id="registerForm" action="#">
-      <h1>Registrarse</h1>
-      <div class="input-box">
-        <input type="text" id="newUsername" placeholder="Usuario" required>
-        <i class='bx bxs-user'></i>
-      </div>
-      <div class="input-box">
-        <input type="password" id="newPassword" placeholder="Contraseña" required>
-        <i class='bx bxs-lock-alt'></i>
-      </div>
-      <div class="input-box">
-        <input type="password" id="confirmPassword" placeholder="Confirmar Contraseña" required>
-        <i class='bx bxs-lock-alt'></i>
-      </div>
-      <button type="submit" class="btn">Registrarse</button>
-    </form>
-    <!-- Contenedor de mensajes para registro -->
-    <p id="registerMessage"></p>
-  </div>
-      
+    <div class="form-box register">
+      <form id="registerForm">
+        <h1>Registrarse</h1>
+        <div class="input-box">
+          <input type="text" id="name" placeholder="Nombre Completo" required>
+          <i class='bx bxs-user'></i>
+        </div>
+        <div class="input-box">
+          <input type="email" id="newEmail" placeholder="Correo Electrónico" required>
+          <i class='bx bxs-envelope'></i>
+        </div>
+        <div class="input-box">
+          <input type="password" id="newPassword" placeholder="Contraseña" required>
+          <i class='bx bxs-lock-alt'></i>
+        </div>
+        <div class="input-box">
+          <input type="password" id="confirmPassword" placeholder="Confirmar Contraseña" required>
+          <i class='bx bxs-lock-alt'></i>
+        </div>
+        <button type="submit" class="btn">Registrarse</button>
+        <!-- Contenedor de mensajes para registro -->
+        <p id="registerMessage"></p>
+      </form>
+    </div>
 
     <!-- Paneles para alternar formularios -->
     <div class="toggle-box">
@@ -61,11 +65,13 @@
       <div class="toggle-panel toggle-right">
         <h1>PcParts</h1>
         <p>¿Ya tienes una cuenta?</p>
-        <button class="btn login-btn">Inicia Sesion</button>
+        <button class="btn login-btn">Inicia Sesión</button>
       </div>
     </div>
   </div>
 
-  <script src="./js/login.js"></script>
+  <!-- Cargar el script después de que el DOM esté listo -->
+  <script src="./js/login.js" defer></script>
+
 </body>
 </html>
