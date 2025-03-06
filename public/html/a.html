@@ -3,18 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <title>Gestión de Productos</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    form div { margin-bottom: 10px; }
-    label { display: inline-block; width: 100px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-    th { background-color: #f4f4f4; }
-    button { margin-right: 5px; }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+  <link rel="stylesheet" href="./css/admin.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
 </head>
+<style>
+  /* Estilos del modal */
+  .modal {
+    display: none; /* Inicialmente oculto */
+    
+  }
+  </style>
 <body>
-  <h1>Agregar Nuevo Producto</h1>
+  <h1>Agregar Nuevo Producto <i class="fas fa-plus-circle"></i></h1>
+
   <form id="productForm" enctype="multipart/form-data">
     <div>
       <label for="name">Nombre:</label>
@@ -25,23 +27,34 @@
       <input type="number" id="price" name="price" step="0.01" required>
     </div>
     <div>
+      <label for="stock">Stock:</label>
+      <input type="number" id="stock" name="stock" required>
+    </div>
+    <div>
+      <label for="category">Categoría:</label>
+      <input type="text" id="category" name="category" required>
+    </div>
+    <div>
       <label for="description">Descripción:</label>
-      <textarea id="description" name="description"></textarea>
+      <textarea id="description" name="description" required></textarea>
     </div>
     <div>
       <label for="image">Imagen:</label>
       <input type="file" id="image" name="image" accept="image/*">
     </div>
-    <button type="submit">Agregar Producto</button>
+    <button type="submit"><i class="fas fa-save"></i> Agregar Producto</button>
   </form>
 
-  <h2>Lista de Productos</h2>
+  <h2>Lista de Productos <i class="fas fa-list"></i></h2>
+  <input type="text" id="searchInput" placeholder="Buscar por nombre..." onkeyup="searchProducts()">
   <table>
     <thead>
       <tr>
         <th>ID</th>
         <th>Nombre</th>
         <th>Precio</th>
+        <th>Stock</th>
+        <th>Categoría</th>
         <th>Descripción</th>
         <th>Imagen</th>
         <th>Acciones</th>
@@ -50,104 +63,70 @@
     <tbody id="productTableBody"></tbody>
   </table>
 
+ <!-- MODAL DE EDICIÓN -->
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2><i class="fas fa-edit"></i> Editar Producto</h2>
+    <form id="editForm">
+      <input type="hidden" id="editId">
+      <div>
+        <label for="editName">Nombre:</label>
+        <input type="text" id="editName" required>
+      </div>
+      <div>
+        <label for="editPrice">Precio:</label>
+        <input type="number" id="editPrice" step="0.01" required>
+      </div>
+      <div>
+        <label for="editStock">Stock:</label>
+        <input type="number" id="editStock" required>
+      </div>
+      <div>
+        <label for="editCategory">Categoría:</label>
+        <input type="text" id="editCategory" required>
+      </div>
+      <div>
+        <label for="editDescription">Descripción:</label>
+        <textarea id="editDescription" required></textarea>
+      </div>
+      <div>
+        <label for="editImage">Imagen:</label>
+        <input type="file" id="editImage" name="image" accept="image/*">
+        <!-- Vista previa de la imagen (solo si existe) -->
+        <img id="editImagePreview" src="" style="display:none; width: 100px; margin-top: 10px;">
+      </div>
+      <button type="submit"><i class="fas fa-check-circle"></i> Guardar Cambios</button>
+    </form>
+  </div>
+</div>
+
+
+  <script src="./js/admin.js"></script>
   <script>
-    // Función para obtener productos desde el backend
-    async function fetchProducts() {
-      try {
-        const response = await fetch('/products');
-        
-        if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-        
-        const products = await response.json();
-        const tableBody = document.getElementById('productTableBody');
-        tableBody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos productos
-  
-        products.forEach(product => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${product._id}</td>
-            <td>${product.name}</td>
-            <td>${product.price}</td>
-            <td>${product.description}</td>
-            <td><img src="/uploads/${product.image}" width="100"></td>
-            <td>
-              <button onclick="editProduct('${product._id}')">Editar</button>
-              <button onclick="deleteProduct('${product._id}')">Eliminar</button>
-            </td>
-          `;
-          tableBody.appendChild(row);
-        });
-      } catch (error) {
-        console.error('❌ Error al obtener productos:', error);
-        alert(`❌ Error al cargar productos: ${error.message}`);
-      }
-    }
-  
-    // Manejar el formulario de agregar producto
-    document.getElementById('productForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-  
-      const name = document.getElementById('name').value.trim();
-      const price = parseFloat(document.getElementById('price').value);
-      const description = document.getElementById('description').value.trim();
-      const imageFile = document.getElementById('image').files[0];
-  
-      if (!name || isNaN(price) || price <= 0 || !description) {
-        alert('⚠️ Todos los campos son obligatorios y el precio debe ser un número mayor a 0.');
-        return;
-      }
-  
-      try {
-        // Creamos el objeto FormData para enviar la imagen junto con otros datos
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('price', price);
-        formData.append('description', description);
-        if (imageFile) formData.append('image', imageFile);
-
-        const response = await fetch('/products', {
-          method: 'POST',
-          body: formData
-        });
-  
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Error desconocido al agregar producto.');
+    // jQuery para animación de los elementos
+    $(document).ready(function() {
+      // Mostrar el modal de edición con animación
+      $('#editModal').fadeIn();
+      
+      // Cuando se hace hover sobre las filas de la tabla, cambiar el color de fondo
+      $('table tr').hover(
+        function() {
+          $(this).css('background-color', '#333');
+        }, function() {
+          $(this).css('background-color', '');
         }
-  
-        alert('✅ Producto agregado exitosamente');
-        document.getElementById('productForm').reset();
-        fetchProducts();
-      } catch (error) {
-        console.error('❌ Error:', error);
-        alert(`❌ Error al agregar producto: ${error.message}`);
-      }
+      );
+
+      // Para hacer que el formulario se resalte al hacer hover
+      $('form').hover(
+        function() {
+          $(this).css('box-shadow', '0px 0px 20px rgba(0, 170, 255, 0.5)');
+        }, function() {
+          $(this).css('box-shadow', '');
+        }
+      );
     });
-  
-    // Eliminar un producto
-    async function deleteProduct(id) {
-  console.log('ID del producto a eliminar:', id);  // Verificar ID antes de la solicitud
-
-  if (confirm('⚠️ ¿Estás seguro de eliminar este producto?')) {
-    try {
-      const response = await fetch(`/products/${id}`, { method: 'DELETE' });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Error desconocido al eliminar producto.');
-      }
-
-      alert('✅ Producto eliminado');
-      fetchProducts();
-    } catch (error) {
-      console.error('❌ Error:', error);
-      alert(`❌ Error al eliminar producto: ${error.message}`);
-    }
-  }
-}
-
-    // Cargar productos cuando la página se cargue
-    fetchProducts();
   </script>
 </body>
 </html>

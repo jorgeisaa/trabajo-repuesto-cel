@@ -1,4 +1,17 @@
 const Product = require('../models/product');
+const multer = require('multer');
+const path = require('path');
+
+// Configuración de multer para guardar imágenes
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Carpeta donde se guardarán las imágenes
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage });
 
 // Obtener todos los productos
 exports.getAllProducts = async (req, res) => {
@@ -13,7 +26,7 @@ exports.getAllProducts = async (req, res) => {
 // Obtener un producto por su ID
 exports.getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);  // Cambié 'productId' por 'id'
+    const product = await Product.findById(req.params.id);
     if (!product) {
       return res.status(404).json({ message: 'Producto no encontrado' });
     }
@@ -23,12 +36,13 @@ exports.getProductById = async (req, res) => {
   }
 };
 
-// Crear un nuevo producto
+// Crear un nuevo producto con imagen
 exports.addProduct = async (req, res) => {
   try {
     const { name, description, price, stock, category } = req.body;
-
-    const newProduct = new Product({ name, description, price, stock, category });
+    const image = req.file ? `/uploads/${req.file.filename}` : null;
+    
+    const newProduct = new Product({ name, description, price, stock, category, image });
     await newProduct.save();
     res.status(201).json(newProduct);
   } catch (err) {
@@ -36,10 +50,15 @@ exports.addProduct = async (req, res) => {
   }
 };
 
-// Actualizar un producto
+// Actualizar un producto con imagen opcional
 exports.updateProduct = async (req, res) => {
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });  // Cambié 'productId' por 'id'
+    const updates = req.body;
+    if (req.file) {
+      updates.image = `/uploads/${req.file.filename}`;
+    }
+    
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, updates, { new: true });
     if (!updatedProduct) {
       return res.status(404).json({ message: 'Producto no encontrado' });
     }
@@ -52,7 +71,7 @@ exports.updateProduct = async (req, res) => {
 // Eliminar un producto
 exports.deleteProduct = async (req, res) => {
   try {
-    const deletedProduct = await Product.findByIdAndDelete(req.params.id);  // Usar req.params.id directamente
+    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
     if (!deletedProduct) {
       return res.status(404).json({ message: 'Producto no encontrado' });
     }
@@ -63,4 +82,5 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
-
+// Middleware para manejar la subida de imágenes
+exports.uploadImage = upload.single('image');
