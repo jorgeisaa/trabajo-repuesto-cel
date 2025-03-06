@@ -22,7 +22,7 @@ function initLogin() {
     console.log(`🔑 Enviando email: ${email}, contraseña: ${password}`);
 
     // 🔹 Redirige al admin a "a.html"
-    if (email === "admin" && password === "admin") {
+    if (email === "admin@123" && password === "admin") {
       window.location.href = "./a.html";
       return;
     }
