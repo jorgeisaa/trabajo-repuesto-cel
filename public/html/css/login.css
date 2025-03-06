@@ -116,20 +116,30 @@
          color: #333;
      }
  
- .btn{
-     width: 100%;
-     height: 48px;
-     background: #8422df;
-     border-radius: 8px;
-     box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-     border: none;
-     cursor: pointer;
-     font-size: 16px;
-     color: #fff;
-     font-weight: 600;
-     transition: background-color 0.3s ease;
-     
- }
+     .btn {
+        width: 100%;
+        height: 48px;
+        background: #8422df;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        color: #fff;
+        font-weight: 600;
+        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    
+    .btn:hover {
+        background: #6a1bb8; /* Color más oscuro al pasar el mouse */
+        transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+        box-shadow: 0 0 15px rgba(132, 34, 223, 0.5); /* Brillo alrededor */
+    }
+    
+    .btn:active {
+        transform: scale(0.98); /* Leve reducción al hacer clic */
+    }
+    
  
  .toggle-box{
      position: absolute;

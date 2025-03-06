@@ -45,3 +45,23 @@ exports.login = async (req, res) => {
   }
 };
 
+// Obtener datos del usuario autenticado
+exports.getUserData = async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1]; // Obtener el token
+    if (!token) {
+      return res.status(401).json({ success: false, message: "No autorizado" });
+    }
+
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    const user = await User.findById(decoded.userId).select("-password"); // Excluye la contraseña
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "Usuario no encontrado" });
+    }
+
+    res.json({ success: true, user });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error del servidor" });
+  }
+};

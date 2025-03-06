@@ -1,19 +1,5 @@
-// Lógica para alternar formularios
-const container = document.querySelector('.container');
-const registerBtn = document.querySelector('.register-btn');
-const loginBtn = document.querySelector('.login-btn');
-
-registerBtn.addEventListener('click', () => {
-  container.classList.add('active');
-});
-
-loginBtn.addEventListener('click', () => {
-  container.classList.remove('active');
-});
-
 document.addEventListener("DOMContentLoaded", () => {
   initLogin();
-  initRegister();
 });
 
 function initLogin() {
@@ -35,6 +21,12 @@ function initLogin() {
 
     console.log(`🔑 Enviando email: ${email}, contraseña: ${password}`);
 
+    // 🔹 Redirige al admin a "a.html"
+    if (email === "admin" && password === "admin") {
+      window.location.href = "./a.html";
+      return;
+    }
+
     setLoadingState(submitButton, true);
 
     try {
@@ -52,8 +44,15 @@ function initLogin() {
       showMessage(messageDiv, data.message, data.success ? "green" : "red");
 
       if (data.success) {
+        // 🔹 Guarda el token en localStorage
+        localStorage.setItem("token", data.token);
+
+        // 🔹 Obtiene los datos del usuario
+        await obtenerDatosUsuario(data.token);
+
+        // 🔹 Redirige después de 1.5 segundos
         setTimeout(() => {
-          window.location.href = "./index.html";  // Redirige a index.html después de login exitoso
+          window.location.href = "./index.html";
         }, 1500);
       }
     } catch (error) {
@@ -65,68 +64,57 @@ function initLogin() {
   });
 }
 
-function initRegister() {
-  const registerForm = document.getElementById("registerForm");
-  if (!registerForm) return;
-
-  const submitButton = registerForm.querySelector("button[type='submit']");
-  const messageDiv = createMessageDiv(registerForm);
-
-  registerForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("newEmail").value.trim();
-    const password = document.getElementById("newPassword").value.trim();
-    const confirmPassword = document.getElementById("confirmPassword").value.trim();
-
-    if (!name || !email || !password || !confirmPassword) {
-      return showMessage(messageDiv, "⚠️ Todos los campos son obligatorios.", "red");
-    }
-
-    if (password.length < 6) {
-      return showMessage(messageDiv, "🔒 La contraseña debe tener al menos 6 caracteres.", "red");
-    }
-
-    if (password !== confirmPassword) {
-      return showMessage(messageDiv, "❌ Las contraseñas no coinciden.", "red");
-    }
-
-    console.log(`🆕 Registrando usuario: ${name}, email: ${email}`);
-
-    setLoadingState(submitButton, true);
-
-    try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      });
-
-      if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-
-      const data = await response.json();
-      console.log("✅ Respuesta del servidor:", data);
-
-      showMessage(messageDiv, data.message, data.success ? "green" : "red");
-      if (data.success) {
-        setTimeout(() => {
-          window.location.href = "./index.html";  // Redirige a index.html después del login exitoso
-        }, 1500);
-      } else {
-        showMessage(messageDiv, data.message, "red");
+// 🔹 Nueva función para obtener los datos del usuario después del login
+async function obtenerDatosUsuario(token) {
+  try {
+    const response = await fetch("/api/auth/user", {
+      method: "GET",
+      headers: { 
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
       }
-      
-    } catch (error) {
-      console.error("❌ Error de conexión:", error);
-      showMessage(messageDiv, "❌ Error de conexión con el servidor.", "red");
-    } finally {
-      setLoadingState(submitButton, false);
-    }
-  });
+    });
+
+    if (!response.ok) throw new Error("No se pudieron obtener los datos del usuario");
+
+    const userData = await response.json();
+    
+    // 🔹 Guardar los datos en localStorage
+    localStorage.setItem("user", JSON.stringify(userData));
+
+  } catch (error) {
+    console.error("❌ Error obteniendo datos del usuario:", error.message);
+  }
 }
 
-// Función para mostrar mensajes animados
+// 🔹 Mostrar información del usuario al hacer clic en "Cuenta"
+document.addEventListener("DOMContentLoaded", () => {
+  const userData = JSON.parse(localStorage.getItem("user"));
+
+  if (userData) {
+    document.getElementById("openMenu").addEventListener("click", () => {
+      mostrarInfoUsuario(userData);
+    });
+  }
+});
+
+function mostrarInfoUsuario(user) {
+  alert(`👤 Nombre: ${user.name}\n📧 Email: ${user.email}`);
+}
+
+// 🔹 Función para manejar el estado de carga del botón
+function setLoadingState(button, isLoading) {
+  if (!button) return;
+
+  if (!button.dataset.originalText) {
+    button.dataset.originalText = button.textContent;
+  }
+
+  button.disabled = isLoading;
+  button.textContent = isLoading ? "Cargando..." : button.dataset.originalText;
+}
+
+// 🔹 Función para mostrar mensajes animados
 function showMessage(element, text, color) {
   element.textContent = text;
   element.style.color = color;
@@ -137,13 +125,7 @@ function showMessage(element, text, color) {
   }, 3000);
 }
 
-// Función para manejar el estado de carga del botón
-function setLoadingState(button, isLoading) {
-  button.disabled = isLoading;
-  button.textContent = isLoading ? "Cargando..." : button.dataset.originalText || button.textContent;
-}
-
-// Función para crear un mensaje dinámico en formularios
+// 🔹 Función para crear un mensaje dinámico en formularios
 function createMessageDiv(form) {
   const messageDiv = document.createElement("p");
   Object.assign(messageDiv, {

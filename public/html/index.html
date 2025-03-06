@@ -47,8 +47,11 @@
             <div class="container">
                <div class="row">
                   <div class="col-sm-12">
-                     <div class="logo"><a href="index.html"><img src="images/logo.png"></a></div>
-                  </div>
+                     <div class="logo">
+                         <a href="index.html" class="glowing-text">PcParts</a>
+                     </div>
+                 </div>
+                 
                </div>
             </div>
          </div>
@@ -88,24 +91,23 @@
                <span class="padding_10">Carrito (<span id="cartCounter">0</span>)</span>
            </a>
        </li>
-       <li>
-         <a href="#" id="openMenu">
-             <i class="fa fa-user" aria-hidden="true"></i>
-             <span class="padding_10">Cuenta</span>
-         </a>
-      </li>
-      
-      <!-- Menú lateral -->
-      <div id="accountContainer" class="sidenav-right">
-         <a href="javascript:void(0)" class="closebtn" id="closeMenu">&times;</a>
-         <div class="profile-info">
-             <p><strong>Nombre:</strong> Jose</p>
-             <p><strong>Email:</strong> jose@example.com</p>
-         </div>
-         <a href="#">Ver Pedidos</a>
-         <a href="#">Historial de Compras</a>
-         <a href="#">Cerrar Sesión</a>
-      </div>
+       <ul>
+         <li>
+             <a href="#" id="openMenu">
+                 <i class="fa fa-user" aria-hidden="true"></i>
+                 <span class="padding_10">Cuenta</span>
+             </a>
+         </li>
+     </ul>
+     
+     <!-- Modal o Contenedor para Mostrar los Datos del Usuario -->
+     <div id="userInfo" style="display: none;">
+         <h3>Información del Usuario</h3>
+         <p><strong>Nombre:</strong> <span id="userName"></span></p>
+         <p><strong>Email:</strong> <span id="userEmail"></span></p>
+         <button id="closeMenu">Cerrar</button>
+     </div>
+     
    </ul>
 </div>
 
@@ -163,7 +165,18 @@
       </div>
       <!-- banner bg main end -->
 
-
+      <div id="productModal" class="modal">
+         <div class="modal-content">
+             <span class="close-modal">&times;</span>
+             <h2 id="modalProductName"></h2>
+             <img id="modalProductImage" src="" alt="">
+             <p id="modalProductDescription"></p>
+             <p><strong>Precio:</strong> <span id="modalProductPrice"></span></p>
+             <p><strong>Stock disponible:</strong> <span id="modalProductStock"></span></p>
+             <button id="buyButton" class="buy-button">Comprar</button>
+         </div>
+     </div>
+     
 
 
       <div class="products-container" id="productsContainer">
@@ -202,5 +215,6 @@
          }
       </script>
       <script src="./js/productos.js"></script>
+      <script src="./js/usuariodatos.js"></script>
    </body>
 </html>

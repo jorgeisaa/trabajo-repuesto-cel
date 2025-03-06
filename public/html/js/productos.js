@@ -103,18 +103,84 @@ document.addEventListener("DOMContentLoaded", () => {
             products.forEach(product => {
                 const productCard = document.createElement("div");
                 productCard.classList.add("product-card", "box_main");
+            
+               // Generar descuento aleatorio entre 5% y 30%
+    const discount = Math.floor(Math.random() * (30 - 5 + 1)) + 5; 
+    const discountedPrice = (product.price * (1 - discount / 100)).toFixed(2);
 
-                productCard.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}">
-                    <div class="product-info">
-                        <p class="product-title">${product.name}</p>
-                        <p class="product-price">$${product.price.toFixed(2)}</p>
-                        <a href="#" class="product-button" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}">Agregar al carrito</a>
-                    </div>
-                `;
+    // Generar calificación aleatoria entre 1 y 5 estrellas
+    const rating = (Math.random() * (5 - 1) + 1).toFixed(1);
+    const stars = "⭐".repeat(Math.round(rating));
 
+    productCard.innerHTML = `
+        <img src="${product.image}" alt="${product.name}">
+        <div class="product-info">
+            <p class="product-title">${product.name}</p>
+            <p class="product-rating">${stars} (${rating})</p>
+            <div class="product-purchase">
+                <p class="product-price">
+                    <span class="old-price">$${product.price.toFixed(2)}</span> 
+                    <span class="new-price">$${discountedPrice}</span> 
+                    <span class="discount-tag">-${discount}%</span>
+                </p>
+                <a href="#" class="product-button add-to-cart"
+                   data-id="${product.id}" 
+                   data-name="${product.name}" 
+                   data-price="${discountedPrice}" 
+                   data-image="${product.image}" 
+                   data-stock="${product.stock}">
+                   🛒
+                </a>
+            </div>
+        </div>
+    `;
+    
+            
+                // Evento para mostrar detalles al hacer clic en la tarjeta (excepto en el botón "Agregar al carrito")
+                productCard.addEventListener("click", (e) => {
+                    if (!e.target.classList.contains("add-to-cart")) { 
+                        document.getElementById("modalProductName").textContent = product.name;
+                        document.getElementById("modalProductImage").src = product.image;
+                        document.getElementById("modalProductDescription").textContent = product.description || "Sin descripción disponible";
+                        document.getElementById("modalProductPrice").textContent = `$${product.price.toFixed(2)}`;
+                        document.getElementById("modalProductStock").textContent = `${product.stock}`;
+            
+                        document.getElementById("productModal").style.display = "flex";
+                    }
+                });
+            
+                // Evento para agregar al carrito sin abrir el modal
+                productCard.querySelector(".add-to-cart").addEventListener("click", (e) => {
+                    e.preventDefault();
+                    addToCart(product);
+                });
+            
                 container.appendChild(productCard);
             });
+            
+            // Cerrar modal cuando se hace clic en la "X"
+            document.querySelector(".close-modal").addEventListener("click", () => {
+                document.getElementById("productModal").style.display = "none";
+            });
+            
+            // Cerrar modal si se hace clic fuera de la ventana modal
+            window.addEventListener("click", (e) => {
+                const modal = document.getElementById("productModal");
+                if (e.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+            
+            // Función para agregar productos al carrito
+            function addToCart(product) {
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                cart.push(product);
+                localStorage.setItem("cart", JSON.stringify(cart));
+                cartSidebar.classList.add("active");
+
+            }
+            
+            
 
             document.querySelectorAll(".product-button").forEach(button => {
                 button.addEventListener("click", (e) => {
