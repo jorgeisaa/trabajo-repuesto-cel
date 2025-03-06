@@ -7,13 +7,7 @@
   <link rel="stylesheet" href="./css/admin.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
 </head>
-<style>
-  /* Estilos del modal */
-  .modal {
-    display: none; /* Inicialmente oculto */
-    
-  }
-  </style>
+
 <body>
   <h1>PcParts</h1>
   <h2>Agregar Nuevo Producto <i class="fas fa-plus-circle"></i></h2>
@@ -33,7 +27,15 @@
     </div>
     <div>
       <label for="category">Categoría:</label>
-      <input type="text" id="category" name="category" required>
+      <select id="category" name="category" required>
+        <option value="procesadores">Procesadores</option>
+        <option value="memorias_ram">Memorias RAM</option>
+        <option value="placas_base">Placas Base</option>
+        <option value="tarjetas_graficas">Tarjetas Gráficas</option>
+        <option value="discos_duros">Discos Duros</option>
+        <option value="fuentes_alimentacion">Fuentes de Alimentación</option>
+        <option value="accesorios">Accesorios</option>
+      </select>
     </div>
     <div>
       <label for="description">Descripción:</label>
@@ -65,6 +67,7 @@
   </table>
 
  <!-- MODAL DE EDICIÓN -->
+<!-- MODAL DE EDICIÓN -->
 <div id="editModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal()">&times;</span>
@@ -85,7 +88,15 @@
       </div>
       <div>
         <label for="editCategory">Categoría:</label>
-        <input type="text" id="editCategory" required>
+        <select id="editCategory" required>
+          <option value="procesadores">Procesadores</option>
+          <option value="memorias_ram">Memorias RAM</option>
+          <option value="placas_base">Placas Base</option>
+          <option value="tarjetas_graficas">Tarjetas Gráficas</option>
+          <option value="discos_duros">Discos Duros</option>
+          <option value="fuentes_alimentacion">Fuentes de Alimentación</option>
+          <option value="accesorios">Accesorios</option>
+        </select>
       </div>
       <div>
         <label for="editDescription">Descripción:</label>
@@ -104,30 +115,6 @@
 
 
   <script src="./js/admin.js"></script>
-  <script>
-    // jQuery para animación de los elementos
-    $(document).ready(function() {
-      // Mostrar el modal de edición con animación
-      $('#editModal').fadeIn();
-      
-      // Cuando se hace hover sobre las filas de la tabla, cambiar el color de fondo
-      $('table tr').hover(
-        function() {
-          $(this).css('background-color', '#333');
-        }, function() {
-          $(this).css('background-color', '');
-        }
-      );
 
-      // Para hacer que el formulario se resalte al hacer hover
-      $('form').hover(
-        function() {
-          $(this).css('box-shadow', '0px 0px 20px rgba(0, 170, 255, 0.5)');
-        }, function() {
-          $(this).css('box-shadow', '');
-        }
-      );
-    });
-  </script>
 </body>
 </html>

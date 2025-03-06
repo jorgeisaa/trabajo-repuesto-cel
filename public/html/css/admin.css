@@ -1,17 +1,16 @@
-
-
 /* Configuración global */
 body {
   font-family: 'Arial', sans-serif;
   background-image: url('../images/fondol.jpeg');
   background-size: cover;  /* Ajusta la imagen para cubrir todo */
-    background-position: center; /* Centra la imagen */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
   color: #d4d4d4;
   margin: 20px;
   padding: 0;
   text-align: center;
 }
+
 body::before {
   content: "";
   position: fixed;
@@ -120,8 +119,9 @@ form, table {
 }
 
 /* MODAL DE EDICIÓN */
+/* MODAL DE EDICIÓN */
 .modal {
-  display: none; /* Oculto por defecto */
+  display: none; /* Modal oculto por defecto */
   position: fixed;
   z-index: 1000; /* Asegura que esté al frente */
   left: 0;
@@ -129,7 +129,6 @@ form, table {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8); /* Fondo oscuro semi-transparente */
-  display: flex;
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(5px); /* Efecto de desenfoque */
@@ -144,6 +143,7 @@ form, table {
   color: white;
   box-shadow: 0 0 15px rgba(160, 32, 240, 0.5);
   animation: fadeIn 0.3s ease-in-out;
+  position: relative;
 }
 
 /* Botón de cerrar */
@@ -160,3 +160,23 @@ form, table {
 .close:hover {
   color: red;
 }
+
+/* Iconos de los botones */
+button i, .close {
+  font-size: 20px;
+}
+
+.edit-btn, .delete-btn {
+  background: transparent;
+  border: none;
+  color: #a020f0;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 18px;
+  transition: 0.3s ease-in-out;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+  color: #8000ff;
+}
+

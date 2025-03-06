@@ -1,3 +1,4 @@
+// Función para obtener todos los productos
 async function fetchProducts() {
   try {
     const response = await fetch('/products');
@@ -30,6 +31,7 @@ async function fetchProducts() {
   }
 }
 
+// Event listener para agregar un nuevo producto
 document.getElementById('productForm').addEventListener('submit', async function (e) {
   e.preventDefault();
   const formData = new FormData(this);
@@ -47,6 +49,7 @@ document.getElementById('productForm').addEventListener('submit', async function
   }
 });
 
+// Función para eliminar un producto
 async function deleteProduct(id) {
   if (confirm('⚠️ ¿Estás seguro de eliminar este producto?')) {
     try {
@@ -62,6 +65,7 @@ async function deleteProduct(id) {
   }
 }
 
+// Función para abrir el modal de edición
 function openEditModal(id, name, price, stock, category, description, image) {
   document.getElementById('editId').value = id;
   document.getElementById('editName').value = name;
@@ -79,34 +83,27 @@ function openEditModal(id, name, price, stock, category, description, image) {
     imagePreview.style.display = 'none';
   }
 
-  document.getElementById('editModal').style.display = 'block';
+  // Mostrar el modal cuando se llame a esta función
+  document.getElementById('editModal').style.display = 'flex'; // Mostrar el modal con 'flex'
 }
 
+// Función para cerrar el modal
 function closeModal() {
-  document.getElementById('editModal').style.display = 'none';
+  document.getElementById('editModal').style.display = 'none'; // Ocultar el modal
 }
 
 
-function closeModal() {
-  document.getElementById('editModal').style.display = 'none';
-}
 
+// Event listener para actualizar un producto
 document.getElementById('editForm').addEventListener('submit', async function (e) {
   e.preventDefault();
   const id = document.getElementById('editId').value;
-  const updatedProduct = {
-    name: document.getElementById('editName').value,
-    price: document.getElementById('editPrice').value,
-    stock: document.getElementById('editStock').value,
-    category: document.getElementById('editCategory').value,
-    description: document.getElementById('editDescription').value,
-  };
+  const formData = new FormData(this); // Usamos FormData para manejar el archivo de imagen
 
   try {
     const response = await fetch(`/products/${id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedProduct),
+      body: formData, // Enviar FormData, que incluye los datos del producto y la imagen (si se seleccionó)
     });
 
     if (!response.ok) throw new Error('Error al actualizar producto.');
@@ -120,6 +117,7 @@ document.getElementById('editForm').addEventListener('submit', async function (e
   }
 });
 
+// Función para buscar productos en la tabla
 function searchProducts() {
   const filter = document.getElementById('searchInput').value.toUpperCase();
   const table = document.getElementById('productTableBody');
@@ -150,4 +148,5 @@ window.onclick = function(event) {
   }
 };
 
+// Llamar a la función para obtener los productos al cargar la página
 fetchProducts();
