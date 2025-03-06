@@ -278,3 +278,70 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const categoryFilter = document.getElementById("categoryFilter");
+    const container = document.getElementById("productsContainer");
+
+    if (!categoryFilter || !container) return;
+
+    categoryFilter.addEventListener("change", () => {
+        const selectedCategory = categoryFilter.value;
+
+        fetch('/products')
+            .then(response => response.json())
+            .then(products => {
+                container.innerHTML = ""; // Limpiar el contenedor
+
+                let filteredProducts = products;
+
+                if (selectedCategory !== "all") {
+                    filteredProducts = products.filter(product => 
+                        product.category.toLowerCase() === selectedCategory.toLowerCase()
+                    );
+                }
+
+                if (filteredProducts.length === 0) {
+                    container.innerHTML = "<p style='text-align:center;'>No hay productos en esta categoría.</p>";
+                    return;
+                }
+
+                filteredProducts.forEach(product => {
+                    const productCard = document.createElement("div");
+                    productCard.classList.add("product-card", "box_main");
+
+                    // Generar descuento y calificación aleatoria
+                    const discount = Math.floor(Math.random() * (30 - 5 + 1)) + 5; 
+                    const discountedPrice = (product.price * (1 - discount / 100)).toFixed(2);
+                    const rating = (Math.random() * (5 - 1) + 1).toFixed(1);
+                    const stars = "⭐".repeat(Math.round(rating));
+
+                    productCard.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}">
+                        <div class="product-info">
+                            <p class="product-title">${product.name}</p>
+                            <p class="product-rating">${stars} (${rating})</p>
+                            <div class="product-purchase">
+                                <p class="product-price">
+                                    <span class="old-price">$${product.price.toFixed(2)}</span> 
+                                    <span class="new-price">$${discountedPrice}</span> 
+                                    <span class="discount-tag">-${discount}%</span>
+                                </p>
+                                <a href="#" class="product-button add-to-cart"
+                                   data-id="${product.id}" 
+                                   data-name="${product.name}" 
+                                   data-price="${discountedPrice}" 
+                                   data-image="${product.image}" 
+                                   data-stock="${product.stock}">
+                                   🛒
+                                </a>
+                            </div>
+                        </div>
+                    `;
+
+                    container.appendChild(productCard);
+                });
+            })
+            .catch(error => console.error("❌ Error al filtrar productos:", error));
+    });
+});
