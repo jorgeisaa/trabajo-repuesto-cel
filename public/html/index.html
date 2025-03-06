@@ -47,8 +47,11 @@
             <div class="container">
                <div class="row">
                   <div class="col-sm-12">
-                     <div class="logo"><a href="index.html"><img src="images/logo.png"></a></div>
-                  </div>
+                     <div class="logo">
+                         <a href="index.html" class="glowing-text">PcParts</a>
+                     </div>
+                 </div>
+                 
                </div>
             </div>
          </div>
@@ -163,7 +166,18 @@
       </div>
       <!-- banner bg main end -->
 
-
+      <div id="productModal" class="modal">
+         <div class="modal-content">
+             <span class="close-modal">&times;</span>
+             <h2 id="modalProductName"></h2>
+             <img id="modalProductImage" src="" alt="">
+             <p id="modalProductDescription"></p>
+             <p><strong>Precio:</strong> <span id="modalProductPrice"></span></p>
+             <p><strong>Stock disponible:</strong> <span id="modalProductStock"></span></p>
+             <button id="buyButton" class="buy-button">Comprar</button>
+         </div>
+     </div>
+     
 
 
       <div class="products-container" id="productsContainer">

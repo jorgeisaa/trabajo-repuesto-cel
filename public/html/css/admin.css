@@ -1,3 +1,25 @@
+.glowing-text {
+  font-size: 3rem; /* Tamaño grande */
+  font-weight: bold;
+  text-decoration: none;
+  font-family: 'Arial', sans-serif;
+  display: inline-block;
+  
+  background: linear-gradient(45deg, #ff0000, #ff7300, #ffeb00, #47ff00, #00fff7, #2b65ff, #8000ff, #ff0080);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  animation: glowing 5s infinite linear;
+}
+
+/* Animación de cambio de color */
+@keyframes glowing {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 
 
 /* Configuración global */

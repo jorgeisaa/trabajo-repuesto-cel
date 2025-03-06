@@ -87,10 +87,14 @@ body {
     text-align: center;
     width: 100%;
     margin-top: auto;
+    transition: background 0.3s ease, transform 0.2s ease;
+
 }
 
 .product-button:hover {
     background: #6a0dad;
+    transform: scale(1.05);
+
 }
 
 /* Ajustes para el carrito emergente */
